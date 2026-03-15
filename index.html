@@ -7,526 +7,138 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
-<!-- Google Sheets 연동 -->
 <script>
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwD1qtvnQsBBceSSi_pGstebi-hddi5_vhPfDgQrzj5-uifnMe7yGTGBcrsryj8_rXt/exec";
-
   window.saveResult = async function(data) {
     try {
-      await fetch(APPS_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-      console.log("Google Sheets 저장 완료");
-    } catch (e) {
-      console.error("저장 실패:", e);
-    }
+      await fetch(APPS_SCRIPT_URL, { method:"POST", mode:"no-cors", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
+    } catch(e) { console.error("저장 실패:", e); }
   };
 </script>
 
 <style>
 :root {
-  --primary: #4B2E8A;
-  --primary-light: #7B5CC4;
-  --primary-pale: #F0EBF8;
-  --accent: #D4AF37;
-  --bg: #FAFAF8;
-  --surface: #FFFFFF;
-  --text: #1A1A2E;
-  --text-muted: #6B6B80;
-  --border: rgba(75,46,138,0.12);
-  --success: #2D7A4F;
-  --success-bg: #EAF7F0;
-  --danger: #9B2335;
-  --danger-bg: #FCEEF0;
-  --radius: 14px;
-  --shadow: 0 2px 20px rgba(75,46,138,0.08);
+  --primary: #4B2E8A; --primary-light: #7B5CC4; --primary-pale: #F0EBF8;
+  --accent: #D4AF37; --bg: #FAFAF8; --surface: #FFFFFF;
+  --text: #1A1A2E; --text-muted: #6B6B80; --border: rgba(75,46,138,0.12);
+  --success: #2D7A4F; --success-bg: #EAF7F0; --danger: #9B2335; --danger-bg: #FCEEF0;
+  --radius: 14px; --shadow: 0 2px 20px rgba(75,46,138,0.08);
 }
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'Noto Sans KR', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  padding: 0 0 80px;
-}
-
-.top-bar {
-  background: var(--primary);
-  padding: 14px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.top-bar-title {
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.9);
-  letter-spacing: 0.5px;
-}
-
-.step-dots {
-  display: flex;
-  gap: 6px;
-}
-
-.step-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.3);
-  transition: all 0.3s;
-}
-.step-dot.active { background: var(--accent); transform: scale(1.2); }
-.step-dot.done { background: rgba(255,255,255,0.7); }
-
-.container { max-width: 680px; margin: 0 auto; padding: 24px 16px; }
-
-.page { display: none; animation: fadeIn 0.4s ease; }
-.page.active { display: block; }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.hero {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-  border-radius: var(--radius);
-  padding: 32px 24px;
-  color: white;
-  margin-bottom: 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -30px; right: -30px;
-  width: 120px; height: 120px;
-  border-radius: 50%;
-  background: rgba(212,175,55,0.15);
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: -20px; left: 20px;
-  width: 80px; height: 80px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.06);
-}
-
-.hero-eyebrow {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 10px;
-}
-
-.hero h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 26px;
-  line-height: 1.3;
-  margin-bottom: 8px;
-}
-
-.hero-sub {
-  font-size: 13px;
-  opacity: 0.8;
-  line-height: 1.6;
-}
-
-.info-pills {
-  display: flex;
-  gap: 8px;
-  margin-top: 16px;
-  flex-wrap: wrap;
-}
-
-.pill {
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 20px;
-  padding: 4px 12px;
-  font-size: 12px;
-  color: white;
-}
-
-.card {
-  background: var(--surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  padding: 20px;
-  margin-bottom: 16px;
-  box-shadow: var(--shadow);
-}
-
-.card-label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--primary-light);
-  margin-bottom: 12px;
-}
-
-.form-group { margin-bottom: 16px; }
-.form-group:last-child { margin-bottom: 0; }
-
-.form-label {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text);
-  margin-bottom: 6px;
-  display: block;
-}
-
-.req { color: var(--danger); margin-left: 2px; }
-
-.form-input {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  font-size: 14px;
-  font-family: 'Noto Sans KR', sans-serif;
-  color: var(--text);
-  background: var(--bg);
-  transition: border-color 0.2s;
-  outline: none;
-}
-
-.form-input:focus { border-color: var(--primary-light); background: white; }
-
-.btn {
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: none;
-  font-size: 15px;
-  font-weight: 700;
-  font-family: 'Noto Sans KR', sans-serif;
-  cursor: pointer;
-  transition: all 0.2s;
-  letter-spacing: 0.3px;
-}
-
-.btn-primary {
-  background: var(--primary);
-  color: white;
-}
-
-.btn-primary:hover { background: var(--primary-light); transform: translateY(-1px); }
-.btn-primary:active { transform: translateY(0); }
-
-.btn-outline {
-  background: white;
-  color: var(--primary);
-  border: 1.5px solid var(--primary);
-  margin-top: 10px;
-}
-
-.btn-outline:hover { background: var(--primary-pale); }
-
-
-
-.progress-section { margin-bottom: 20px; }
-
-.progress-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.progress-label { font-size: 13px; color: var(--text-muted); }
-.progress-count { font-size: 13px; font-weight: 700; color: var(--primary); }
-
-.progress-track {
-  height: 5px;
-  background: var(--border);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--primary-light));
-  border-radius: 3px;
-  transition: width 0.4s ease;
-}
-
-.q-card {
-  background: var(--surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  padding: 20px;
-  margin-bottom: 14px;
-  box-shadow: var(--shadow);
-  transition: border-color 0.2s;
-}
-
-.q-card.answered { border-color: rgba(75,46,138,0.3); }
-
-.q-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.q-num-badge {
-  min-width: 28px; height: 28px;
-  background: var(--primary);
-  color: white;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-.q-text { font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--text); flex: 1; }
-
-.q-pts {
-  font-size: 11px;
-  background: var(--primary-pale);
-  color: var(--primary);
-  padding: 2px 8px;
-  border-radius: 20px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.options { display: flex; flex-direction: column; gap: 8px; }
-
-.option-btn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 11px 14px;
-  border-radius: 10px;
-  border: 1.5px solid var(--border);
-  cursor: pointer;
-  font-size: 13px;
-  color: var(--text);
-  background: var(--bg);
-  transition: all 0.15s;
-  text-align: left;
-  font-family: 'Noto Sans KR', sans-serif;
-  width: 100%;
-}
-
-.option-btn:hover { border-color: var(--primary-light); background: var(--primary-pale); }
-
-.option-btn.selected {
-  border-color: var(--primary);
-  background: var(--primary-pale);
-  color: var(--primary);
-  font-weight: 500;
-}
-
-.option-circle {
-  width: 18px; height: 18px;
-  border-radius: 50%;
-  border: 1.5px solid currentColor;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.5;
-}
-
-.option-btn.selected .option-circle {
-  background: var(--primary);
-  border-color: var(--primary);
-  opacity: 1;
-}
-
-.option-btn.selected .option-circle::after {
-  content: '';
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: white;
-}
-
-.essay-area {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  font-size: 13px;
-  font-family: 'Noto Sans KR', sans-serif;
-  color: var(--text);
-  background: var(--bg);
-  resize: vertical;
-  min-height: 90px;
-  outline: none;
-  transition: border-color 0.2s;
-  line-height: 1.7;
-}
-
-.essay-area:focus { border-color: var(--primary-light); background: white; }
-
-.keyword-hint {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-top: 6px;
-}
-
-.attempt-banner {
-  background: #FFF8E1;
-  border: 1px solid #F0C040;
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-size: 13px;
-  color: #7A5800;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Result Page */
-.result-hero {
-  border-radius: var(--radius);
-  padding: 32px 24px;
-  text-align: center;
-  margin-bottom: 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-.result-hero.pass-bg {
-  background: linear-gradient(135deg, #1B5E35, #2D7A4F);
-  color: white;
-}
-
-.result-hero.fail-bg {
-  background: linear-gradient(135deg, #7A1A28, #9B2335);
-  color: white;
-}
-
-.result-verdict {
-  font-size: 11px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  opacity: 0.8;
-  margin-bottom: 8px;
-}
-
-.result-score { font-size: 64px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
-.result-score span { font-size: 24px; font-weight: 300; }
-.result-badge { font-size: 22px; font-weight: 700; letter-spacing: 2px; }
-.result-msg { font-size: 13px; opacity: 0.85; margin-top: 10px; line-height: 1.6; }
-
-/* Certificate */
-.cert {
-  border: 2px solid var(--accent);
-  border-radius: var(--radius);
-  padding: 30px 24px;
-  text-align: center;
-  background: white;
-  margin-bottom: 16px;
-  position: relative;
-}
-
-.cert::before {
-  content: '';
-  position: absolute;
-  top: 8px; left: 8px; right: 8px; bottom: 8px;
-  border: 0.5px solid rgba(212,175,55,0.3);
-  border-radius: 10px;
-  pointer-events: none;
-}
-
-.cert-cross { color: var(--accent); font-size: 22px; margin-bottom: 10px; }
-.cert-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; }
-.cert-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--primary); margin-bottom: 6px; }
-.cert-name { font-size: 26px; font-weight: 700; color: var(--text); border-bottom: 1.5px solid var(--accent); display: inline-block; padding-bottom: 4px; margin: 8px 0 14px; }
-.cert-course { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
-.cert-score { font-size: 13px; color: var(--primary); font-weight: 700; margin-top: 12px; }
-.cert-date { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-
-/* Detail results */
-.result-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 13px;
-}
-
-.result-item:last-child { border-bottom: none; }
-
-.result-icon {
-  width: 20px; height: 20px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-.icon-correct { background: var(--success-bg); color: var(--success); }
-.icon-wrong { background: var(--danger-bg); color: var(--danger); }
-
-.result-item-text { flex: 1; line-height: 1.5; }
-.result-item-q { color: var(--text-muted); margin-bottom: 2px; }
-.result-item-ans { font-weight: 500; color: var(--text); }
-.result-item-correct { color: var(--success); font-size: 12px; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding:0 0 80px; }
+.top-bar { background:var(--primary); padding:14px 20px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+.top-bar-title { font-size:13px; font-weight:500; color:rgba(255,255,255,0.9); letter-spacing:0.5px; }
+.step-dots { display:flex; gap:6px; }
+.step-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.3); transition:all 0.3s; }
+.step-dot.active { background:var(--accent); transform:scale(1.2); }
+.step-dot.done { background:rgba(255,255,255,0.7); }
+.container { max-width:680px; margin:0 auto; padding:24px 16px; }
+.page { display:none; animation:fadeIn 0.4s ease; }
+.page.active { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+.hero { background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%); border-radius:var(--radius); padding:32px 24px; color:white; margin-bottom:20px; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; top:-30px; right:-30px; width:120px; height:120px; border-radius:50%; background:rgba(212,175,55,0.15); }
+.hero-eyebrow { font-size:11px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
+.hero h1 { font-family:'Playfair Display',serif; font-size:26px; line-height:1.3; margin-bottom:8px; }
+.hero-sub { font-size:13px; opacity:0.8; line-height:1.6; }
+.info-pills { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
+.pill { background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:4px 12px; font-size:12px; color:white; }
+.card { background:var(--surface); border-radius:var(--radius); border:1px solid var(--border); padding:20px; margin-bottom:16px; box-shadow:var(--shadow); }
+.card-label { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--primary-light); margin-bottom:12px; }
+.form-group { margin-bottom:16px; }
+.form-group:last-child { margin-bottom:0; }
+.form-label { font-size:13px; font-weight:500; color:var(--text); margin-bottom:6px; display:block; }
+.req { color:var(--danger); margin-left:2px; }
+.form-input { width:100%; padding:10px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:14px; font-family:'Noto Sans KR',sans-serif; color:var(--text); background:var(--bg); transition:border-color 0.2s; outline:none; }
+.form-input:focus { border-color:var(--primary-light); background:white; }
+.btn { width:100%; padding:14px; border-radius:12px; border:none; font-size:15px; font-weight:700; font-family:'Noto Sans KR',sans-serif; cursor:pointer; transition:all 0.2s; letter-spacing:0.3px; }
+.btn-primary { background:var(--primary); color:white; }
+.btn-primary:hover { background:var(--primary-light); transform:translateY(-1px); }
+.btn-outline { background:white; color:var(--primary); border:1.5px solid var(--primary); margin-top:10px; }
+.btn-outline:hover { background:var(--primary-pale); }
+
+/* Language selection */
+.lang-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px; }
+.lang-card { background:var(--surface); border:2px solid var(--border); border-radius:var(--radius); padding:24px 16px; text-align:center; cursor:pointer; transition:all 0.2s; }
+.lang-card:hover { border-color:var(--primary-light); background:var(--primary-pale); }
+.lang-card.selected { border-color:var(--primary); background:var(--primary-pale); }
+.lang-flag { font-size:32px; margin-bottom:8px; }
+.lang-title { font-size:15px; font-weight:700; color:var(--text); }
+.lang-sub { font-size:12px; color:var(--text-muted); margin-top:4px; }
+
+.progress-section { margin-bottom:20px; }
+.progress-info { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.progress-label { font-size:13px; color:var(--text-muted); }
+.progress-count { font-size:13px; font-weight:700; color:var(--primary); }
+.progress-track { height:5px; background:var(--border); border-radius:3px; overflow:hidden; }
+.progress-fill { height:100%; background:linear-gradient(90deg,var(--primary),var(--primary-light)); border-radius:3px; transition:width 0.4s ease; }
+.q-card { background:var(--surface); border-radius:var(--radius); border:1px solid var(--border); padding:20px; margin-bottom:14px; box-shadow:var(--shadow); transition:border-color 0.2s; }
+.q-card.answered { border-color:rgba(75,46,138,0.3); }
+.q-header { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; }
+.q-num-badge { min-width:28px; height:28px; background:var(--primary); color:white; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:1px; }
+.q-text { font-size:14px; font-weight:500; color:var(--text); flex:1; line-height:1.6; }
+.q-pts { font-size:11px; background:var(--primary-pale); color:var(--primary); padding:2px 8px; border-radius:20px; font-weight:700; flex-shrink:0; }
+.options { display:flex; flex-direction:column; gap:8px; }
+.option-btn { display:flex; align-items:center; gap:10px; padding:11px 14px; border-radius:10px; border:1.5px solid var(--border); cursor:pointer; font-size:13px; color:var(--text); background:var(--bg); transition:all 0.15s; text-align:left; font-family:'Noto Sans KR',sans-serif; width:100%; }
+.option-btn:hover { border-color:var(--primary-light); background:var(--primary-pale); }
+.option-btn.selected { border-color:var(--primary); background:var(--primary-pale); color:var(--primary); font-weight:500; }
+.option-circle { width:18px; height:18px; border-radius:50%; border:1.5px solid currentColor; flex-shrink:0; display:flex; align-items:center; justify-content:center; opacity:0.5; }
+.option-btn.selected .option-circle { background:var(--primary); border-color:var(--primary); opacity:1; }
+.option-btn.selected .option-circle::after { content:''; width:7px; height:7px; border-radius:50%; background:white; }
+.essay-area { width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:13px; font-family:'Noto Sans KR',sans-serif; color:var(--text); background:var(--bg); resize:vertical; min-height:90px; outline:none; transition:border-color 0.2s; line-height:1.7; }
+.essay-area:focus { border-color:var(--primary-light); background:white; }
+.keyword-hint { font-size:11px; color:var(--text-muted); margin-top:6px; }
+.attempt-banner { background:#FFF8E1; border:1px solid #F0C040; border-radius:10px; padding:10px 14px; font-size:13px; color:#7A5800; margin-bottom:16px; }
+
+/* Result */
+.result-hero { border-radius:var(--radius); padding:32px 24px; text-align:center; margin-bottom:20px; }
+.result-hero.pass-bg { background:linear-gradient(135deg,#1B5E35,#2D7A4F); color:white; }
+.result-hero.fail-bg { background:linear-gradient(135deg,#7A1A28,#9B2335); color:white; }
+.result-verdict { font-size:11px; letter-spacing:3px; text-transform:uppercase; opacity:0.8; margin-bottom:8px; }
+.result-score { font-size:64px; font-weight:700; line-height:1; margin-bottom:4px; }
+.result-score span { font-size:24px; font-weight:300; }
+.result-badge { font-size:22px; font-weight:700; letter-spacing:2px; }
+.result-msg { font-size:13px; opacity:0.85; margin-top:10px; line-height:1.6; }
+.score-breakdown { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:16px; }
+.score-cell { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px 8px; text-align:center; box-shadow:var(--shadow); }
+.score-cell-val { font-size:20px; font-weight:700; color:var(--primary); }
+.score-cell-lbl { font-size:11px; color:var(--text-muted); margin-top:2px; }
+
+/* Certificate → 합격증 */
+.cert { border:2px solid var(--accent); border-radius:var(--radius); padding:30px 24px; text-align:center; background:white; margin-bottom:16px; position:relative; }
+.cert::before { content:''; position:absolute; top:8px; left:8px; right:8px; bottom:8px; border:0.5px solid rgba(212,175,55,0.3); border-radius:10px; pointer-events:none; }
+.cert-cross { color:var(--accent); font-size:22px; margin-bottom:10px; }
+.cert-eyebrow { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--text-muted); margin-bottom:12px; }
+.cert-title { font-family:'Playfair Display',serif; font-size:22px; color:var(--primary); margin-bottom:6px; }
+.cert-name { font-size:26px; font-weight:700; color:var(--text); border-bottom:1.5px solid var(--accent); display:inline-block; padding-bottom:4px; margin:8px 0 14px; }
+.cert-course { font-size:13px; color:var(--text-muted); line-height:1.6; }
+.cert-score { font-size:13px; color:var(--primary); font-weight:700; margin-top:12px; }
+.cert-date { font-size:12px; color:var(--text-muted); margin-top:4px; }
+
+.result-item { display:flex; align-items:flex-start; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); font-size:13px; }
+.result-item:last-child { border-bottom:none; }
+.result-icon { width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; margin-top:1px; }
+.icon-correct { background:var(--success-bg); color:var(--success); }
+.icon-wrong { background:var(--danger-bg); color:var(--danger); }
+.result-item-text { flex:1; line-height:1.5; }
+.result-item-q { color:var(--text-muted); margin-bottom:2px; }
+.result-item-ans { font-weight:500; color:var(--text); }
+.result-item-correct { color:var(--success); font-size:12px; }
 
 /* Summary */
-.summary-content { font-size: 13px; line-height: 1.8; color: var(--text-muted); }
-.summary-h { font-size: 14px; font-weight: 700; color: var(--primary); margin: 14px 0 6px; }
-.summary-h:first-child { margin-top: 0; }
+.summary-content { font-size:13px; line-height:1.8; color:var(--text-muted); }
+.summary-h { font-size:14px; font-weight:700; color:var(--primary); margin:14px 0 6px; }
+.summary-h:first-child { margin-top:0; }
+.save-status { font-size:12px; text-align:center; color:var(--text-muted); margin-top:12px; padding:8px; border-radius:8px; background:var(--bg); }
 
-.save-status {
-  font-size: 12px;
-  text-align: center;
-  color: var(--text-muted);
-  margin-top: 12px;
-  padding: 8px;
-  border-radius: 8px;
-  background: var(--bg);
-}
-
-.score-breakdown {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.score-cell {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 8px;
-  text-align: center;
-  box-shadow: var(--shadow);
-}
-
-.score-cell-val { font-size: 20px; font-weight: 700; color: var(--primary); }
-.score-cell-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+/* Summary page */
+.summary-page-title { font-family:'Playfair Display',serif; font-size:20px; color:var(--primary); margin-bottom:4px; }
+.summary-score-bar { display:flex; align-items:center; gap:12px; background:var(--primary-pale); border-radius:10px; padding:12px 16px; margin-bottom:16px; }
+.summary-score-num { font-size:28px; font-weight:700; color:var(--primary); }
+.summary-score-info { font-size:13px; color:var(--text-muted); }
+.pf-badge { display:inline-block; padding:3px 12px; border-radius:20px; font-size:13px; font-weight:700; margin-left:8px; }
+.pf-pass { background:var(--success-bg); color:var(--success); }
+.pf-fail { background:var(--danger-bg); color:var(--danger); }
 </style>
 </head>
 <body>
@@ -537,6 +149,7 @@ body {
     <div class="step-dot active" id="dot1"></div>
     <div class="step-dot" id="dot2"></div>
     <div class="step-dot" id="dot3"></div>
+    <div class="step-dot" id="dot4"></div>
   </div>
 </div>
 
@@ -546,11 +159,11 @@ body {
     <div class="hero">
       <div class="hero-eyebrow">초대교회 선교훈련 BEYOND</div>
       <h1>필수강의<br>복음과 선교</h1>
-      <p class="hero-sub">김용의 선교사 · Section 1 강의 수강 후<br>Section 2 퀴즈를 완료하면 수강이 완료됩니다</p>
+      <p class="hero-sub">김용의 선교사 · 10문제 퀴즈를 완료하면 수강이 완료됩니다</p>
       <div class="info-pills">
         <span class="pill">10문제</span>
         <span class="pill">100점 만점</span>
-        <span class="pill">80점 이상 PASS</span>
+        <span class="pill">80점 이상 합격</span>
         <span class="pill">재시험 1회</span>
       </div>
     </div>
@@ -561,299 +174,333 @@ body {
         <input class="form-input" type="email" id="inp-email" placeholder="email@example.com" />
       </div>
       <div class="form-group">
-        <label class="form-label">이름<span class="req">*</span></label>
-        <input class="form-input" type="text" id="inp-name" placeholder="홍길동" />
+        <label class="form-label">이름 / Name<span class="req">*</span></label>
+        <input class="form-input" type="text" id="inp-name" placeholder="홍길동 / John Kim" />
       </div>
     </div>
-    <button class="btn btn-primary" onclick="goQuiz()">퀴즈 시작하기 →</button>
+    <div class="card">
+      <div class="card-label">언어 선택 / Language</div>
+      <div class="lang-grid">
+        <div class="lang-card selected" id="lang-ko" onclick="selectLang('ko')">
+          <div class="lang-flag">🇰🇷</div>
+          <div class="lang-title">한국어</div>
+          <div class="lang-sub">Korean</div>
+        </div>
+        <div class="lang-card" id="lang-en" onclick="selectLang('en')">
+          <div class="lang-flag">🇺🇸</div>
+          <div class="lang-title">English</div>
+          <div class="lang-sub">영문</div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="startQuiz()">퀴즈 시작하기 →</button>
   </div>
 </div>
 
-
-
-<!-- PAGE 3: 퀴즈 -->
-<div id="page3" class="page">
+<!-- PAGE 2: 퀴즈 -->
+<div id="page2" class="page">
   <div class="container">
     <div id="attempt-banner"></div>
     <div class="progress-section">
       <div class="progress-info">
-        <span class="progress-label">Section 2 — 퀴즈</span>
+        <span class="progress-label" id="quiz-section-label">Section — 퀴즈</span>
         <span class="progress-count" id="progress-txt">0 / 10</span>
       </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-      </div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
     </div>
     <div id="quiz-wrap"></div>
-    <button class="btn btn-primary" onclick="submitQuiz()" style="margin-top:8px;">제출하기</button>
+    <button class="btn btn-primary" onclick="submitQuiz()" style="margin-top:8px;" id="submit-btn">제출하기</button>
   </div>
 </div>
 
-<!-- PAGE 4: 결과 -->
-<div id="page4" class="page">
+<!-- PAGE 3: 결과 -->
+<div id="page3" class="page">
   <div class="container">
     <div id="result-hero-wrap"></div>
     <div id="cert-wrap"></div>
     <div class="score-breakdown">
-      <div class="score-cell">
-        <div class="score-cell-val" id="sc-correct">0</div>
-        <div class="score-cell-lbl">정답</div>
-      </div>
-      <div class="score-cell">
-        <div class="score-cell-val" id="sc-wrong">0</div>
-        <div class="score-cell-lbl">오답</div>
-      </div>
-      <div class="score-cell">
-        <div class="score-cell-val" id="sc-score">0점</div>
-        <div class="score-cell-lbl">점수</div>
-      </div>
+      <div class="score-cell"><div class="score-cell-val" id="sc-correct">0</div><div class="score-cell-lbl" id="sc-correct-lbl">정답</div></div>
+      <div class="score-cell"><div class="score-cell-val" id="sc-wrong">0</div><div class="score-cell-lbl" id="sc-wrong-lbl">오답</div></div>
+      <div class="score-cell"><div class="score-cell-val" id="sc-score">0점</div><div class="score-cell-lbl" id="sc-score-lbl">점수</div></div>
     </div>
     <div class="card">
-      <div class="card-label">문항별 채점 결과</div>
+      <div class="card-label" id="detail-label">문항별 채점 결과</div>
       <div id="detail-results"></div>
     </div>
-    <div class="card">
-      <div class="card-label">강의 요약</div>
+    <div id="save-status"></div>
+    <div id="result-actions"></div>
+  </div>
+</div>
+
+<!-- PAGE 4: 요약 -->
+<div id="page4" class="page">
+  <div class="container">
+    <div class="card" style="margin-bottom:16px;">
+      <div id="summary-score-bar"></div>
+      <p class="summary-page-title" id="summary-title">강의 요약</p>
+    </div>
+    <div class="card" id="summary-ko" style="display:none;">
+      <div class="card-label">강의 요약 — 복음과 선교</div>
       <div class="summary-content">
         <div class="summary-h">1. 대체 불가 (에스라 8:15,17 / 이사야 6:8)</div>
-        하나님의 선하심을 알고, 영령을 듣고, 경험하는 사람만이 선교를 갈 수 있다. 하나님의 "내가 누구를 보내며"라는 질문에 대체 불가하며 갈 수 있는 사람은: 자신에게 와 닿은 진리를 보고, 하나님의 마음과 음성을 듣고, 그 상황을 담임해 하나님께 예배드리는 사람.
+        하나님의 선하심을 알고, 영령을 듣고, 경험하는 사람만이 선교를 갈 수 있다. "내가 누구를 보내며 누가 나를 위하여 갈꼬" — 대체 불가하며 갈 수 있는 사람: 자신에게 와 닿은 진리를 보고, 하나님의 마음과 음성을 듣고, 그 상황을 담임해 하나님께 예배드리는 사람. 선교는 부르심·체험·말씀을 들어야 가는 것이 아님.
         <div class="summary-h">2. 역사의 고리 (열왕기하 7:9)</div>
-        구약에서는 레위인, 신약에서는 예수 그리스도의 증인으로 연결되는 고리. 선교는 신학적·철학적 사명감이 아닌 복음이 실제로 자신에게 나타난 증인들에 의해 이루어짐. 알면서도 전하지 않는 것은 그릇된 일.
-        <div class="summary-h">3. 마지막 퍼즐 (사도행전 13:21)</div>
-        하나님의 역사는 마지막 한 조각 퍼즐이 맞춰질 때 완성됨. 선교는 잃어버린 한 마리 양이 돌아올 때까지 찾으시는 주님의 마음으로 해야 함. 역사의 연결 고리 하나 하나가 끊어지지 않도록 하는 것이 중요.
+        구약에서는 레위인, 신약에서는 예수 그리스도의 증인으로 연결. 선교는 신학적·철학적 사명감이 아닌 복음이 실제로 자신에게 나타난 증인들에 의해 이루어짐. 알면서도 전하지 않는 것은 미필적 고의로 집단 살육과 같은 죄.
+        <div class="summary-h">3. 마지막 퍼즐 (사도행전 13:21 / 누가복음 15장)</div>
+        하나님의 역사는 마지막 한 조각 퍼즐이 맞춰질 때 완성됨. 선교는 잃어버린 한 마리 양이 돌아올 때까지 찾으시는 주님의 마음으로 해야 함.
+        <div class="summary-h">4. 하나님 마음에 합한 자 (고린도전서 2:16)</div>
+        존재감이 없고 주목받지 못하더라도, 모든 족속에게 복음을 전하여 제자 삼으라는 주님의 명령에 순종하며 하나님의 마음에 합한 성도를 통해 선교의 역사가 완성됨. "땅끝에서 죽어, 하늘 복판에서 만나자"
       </div>
     </div>
-    <div id="save-status"></div>
-    <div id="retake-wrap"></div>
+    <div class="card" id="summary-en" style="display:none;">
+      <div class="card-label">Lecture Summary — Gospel & Missions</div>
+      <div class="summary-content">
+        <div class="summary-h">1. The Irreplaceable (Ezra 8:15,17 / Isaiah 6:8)</div>
+        Only those who know God's goodness, hear His voice, and experience His heart can go on mission. When God asks "Who will go for us?" — the irreplaceable person is one who sees truth as their own reality, hears God's heart and lament, and substitutes themselves into the desperate situation of the lost. Mission is not about waiting for a specific call or program.
+        <div class="summary-h">2. The Link of History (2 Kings 7:9)</div>
+        In the OT, the Levites; in the NT, witnesses of Jesus Christ — these are the connecting links. Mission is carried out by those for whom the Gospel has become an actual, experienced reality. To know the Good News and not share it is like willful mass slaughter.
+        <div class="summary-h">3. The Last Puzzle Piece (Acts 13:21 / Luke 15)</div>
+        God's redemptive history is completed when the last puzzle piece falls into place. Mission must be done with the Father's heart — refusing to rest until the very last lost sheep is found.
+        <div class="summary-h">4. A Person After God's Own Heart (1 Cor. 2:16)</div>
+        Even if overlooked by the world, the one who obeys the Great Commission and possesses God's own heart is the one through whom God's mission is completed. "Die at the ends of the earth, meet in the middle of heaven."
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="goHome()" style="margin-top:8px;" id="home-btn">처음으로 돌아가기 ↩</button>
   </div>
 </div>
 
 <script src="questions.js"></script>
 <script>
+let userName='', userEmail='', selectedLang='ko';
+let userAnswers=Array(10).fill(null);
+let attempt=1, lastScore=0, lastPass=false;
 
-
-let userName = '', userEmail = '';
-let userAnswers = Array(10).fill(null);
-let attempt = 1;
+function selectLang(lang) {
+  selectedLang = lang;
+  document.getElementById('lang-ko').classList.toggle('selected', lang==='ko');
+  document.getElementById('lang-en').classList.toggle('selected', lang==='en');
+}
 
 function setDots(active) {
-  for (let i = 1; i <= 3; i++) {
-    const d = document.getElementById('dot' + i);
-    d.className = 'step-dot' + (i < active ? ' done' : i === active ? ' active' : '');
+  for(let i=1;i<=4;i++){
+    const d=document.getElementById('dot'+i);
+    d.className='step-dot'+(i<active?' done':i===active?' active':'');
   }
 }
 
 function showPage(id, dotNum) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   setDots(dotNum);
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
 
-function goQuiz() {
-  const email = document.getElementById('inp-email').value.trim();
-  const name = document.getElementById('inp-name').value.trim();
-  if (!email || !name) { alert('이메일과 이름을 모두 입력해주세요.'); return; }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('올바른 이메일 형식을 입력해주세요.'); return; }
-  if (!userName) { userName = name; userEmail = email; }
-  userAnswers = Array(10).fill(null);
-  const banner = document.getElementById('attempt-banner');
-  banner.innerHTML = attempt > 1
-    ? '<div class="attempt-banner">⚠ 재시험입니다. 마지막 기회입니다. (1회/1회 사용)</div>'
-    : '';
+function startQuiz() {
+  const email=document.getElementById('inp-email').value.trim();
+  const name=document.getElementById('inp-name').value.trim();
+  if(!email||!name){alert(selectedLang==='ko'?'이메일과 이름을 입력해주세요.':'Please enter your email and name.');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert(selectedLang==='ko'?'올바른 이메일 형식을 입력해주세요.':'Please enter a valid email.');return;}
+  userName=name; userEmail=email;
+  userAnswers=Array(10).fill(null);
+  const banner=document.getElementById('attempt-banner');
+  banner.innerHTML=attempt>1?`<div class="attempt-banner">${selectedLang==='ko'?'⚠ 재시험입니다. 마지막 기회입니다.':'⚠ This is your retake. Last attempt.'}</div>`:'';
+  document.getElementById('quiz-section-label').textContent=selectedLang==='ko'?'Section — 퀴즈':'Section — Quiz';
+  document.getElementById('submit-btn').textContent=selectedLang==='ko'?'제출하기':'Submit';
   renderQuiz();
-  showPage('page3', 2);
+  showPage('page2',2);
+}
+
+function getQuestions() {
+  return selectedLang==='ko'?QUESTIONS_KO:QUESTIONS_EN;
 }
 
 function renderQuiz() {
-  const wrap = document.getElementById('quiz-wrap');
-  wrap.innerHTML = '';
-  QUESTIONS.forEach((q, i) => {
-    const div = document.createElement('div');
-    div.className = 'q-card';
-    div.id = 'qc-' + i;
-
-    let body = '';
-    if (q.type === 'essay') {
-      body = `
-        <textarea class="essay-area" id="essay-${i}"
-          placeholder="답변을 입력해주세요..."
-          oninput="handleEssay(${i}, this.value)">${userAnswers[i] || ''}</textarea>
-        <p class="keyword-hint">힌트: 핵심 키워드를 포함하여 서술해주세요</p>`;
+  const wrap=document.getElementById('quiz-wrap');
+  wrap.innerHTML='';
+  const qs=getQuestions();
+  qs.forEach((q,i)=>{
+    const div=document.createElement('div');
+    div.className='q-card'; div.id='qc-'+i;
+    let body='';
+    if(q.type==='essay'){
+      body=`<textarea class="essay-area" id="essay-${i}" placeholder="${selectedLang==='ko'?'답변을 입력해주세요...':'Write your answer...'}" oninput="handleEssay(${i},this.value)">${userAnswers[i]||''}</textarea><p class="keyword-hint">${selectedLang==='ko'?'힌트: 핵심 키워드를 포함하여 서술해주세요':'Hint: Include key keywords in your answer'}</p>`;
     } else {
-      body = `<div class="options">` + q.options.map((opt, j) => `
-        <button class="option-btn ${userAnswers[i] === j ? 'selected' : ''}" id="opt-${i}-${j}" onclick="selectOpt(${i},${j})">
-          <span class="option-circle"></span>${opt}
-        </button>`).join('') + `</div>`;
+      body=`<div class="options">`+q.options.map((opt,j)=>`<button class="option-btn ${userAnswers[i]===j?'selected':''}" id="opt-${i}-${j}" onclick="selectOpt(${i},${j})"><span class="option-circle"></span>${opt}</button>`).join('')+`</div>`;
     }
-
-    div.innerHTML = `
-      <div class="q-header">
-        <div class="q-num-badge">${i + 1}</div>
-        <div class="q-text">${q.text}</div>
-        <div class="q-pts">${q.points}점</div>
-      </div>
-      ${body}`;
+    div.innerHTML=`<div class="q-header"><div class="q-num-badge">${i+1}</div><div class="q-text">${q.text}</div><div class="q-pts">${q.points}${selectedLang==='ko'?'점':'pts'}</div></div>${body}`;
     wrap.appendChild(div);
   });
   updateProgress();
 }
 
-function selectOpt(qi, oi) {
-  QUESTIONS[qi].options.forEach((_, j) => {
-    const el = document.getElementById(`opt-${qi}-${j}`);
-    if (el) el.className = 'option-btn';
-  });
-  const sel = document.getElementById(`opt-${qi}-${oi}`);
-  if (sel) sel.className = 'option-btn selected';
-  userAnswers[qi] = oi;
-  document.getElementById('qc-' + qi).classList.add('answered');
+function selectOpt(qi,oi) {
+  const qs=getQuestions();
+  qs[qi].options.forEach((_,j)=>{const el=document.getElementById(`opt-${qi}-${j}`);if(el)el.className='option-btn';});
+  const sel=document.getElementById(`opt-${qi}-${oi}`);
+  if(sel)sel.className='option-btn selected';
+  userAnswers[qi]=oi;
+  document.getElementById('qc-'+qi).classList.add('answered');
   updateProgress();
 }
 
-function handleEssay(qi, val) {
-  userAnswers[qi] = val;
-  document.getElementById('qc-' + qi).classList.toggle('answered', val.trim().length > 0);
+function handleEssay(qi,val){
+  userAnswers[qi]=val;
+  document.getElementById('qc-'+qi).classList.toggle('answered',val.trim().length>0);
   updateProgress();
 }
 
-function updateProgress() {
-  const cnt = userAnswers.filter(a => a !== null && a !== '').length;
-  document.getElementById('progress-txt').textContent = cnt + ' / 10';
-  document.getElementById('progress-fill').style.width = (cnt / 10 * 100) + '%';
+function updateProgress(){
+  const cnt=userAnswers.filter(a=>a!==null&&a!=='').length;
+  document.getElementById('progress-txt').textContent=cnt+' / 10';
+  document.getElementById('progress-fill').style.width=(cnt/10*100)+'%';
 }
 
-function submitQuiz() {
-  const unanswered = userAnswers.filter(a => a === null || a === '').length;
-  if (unanswered > 0 && !confirm(`${unanswered}문제가 미답변입니다. 그래도 제출할까요?`)) return;
+function submitQuiz(){
+  const qs=getQuestions();
+  const unanswered=userAnswers.filter(a=>a===null||a==='').length;
+  const msg=selectedLang==='ko'?`${unanswered}문제가 미답변입니다. 그래도 제출할까요?`:`${unanswered} questions unanswered. Submit anyway?`;
+  if(unanswered>0&&!confirm(msg))return;
 
-  let score = 0;
-  const answersLog = [];
-
-  QUESTIONS.forEach((q, i) => {
-    let correct = false;
-    let correctLabel = '';
-
-    if (q.type === 'essay') {
-      const ans = (userAnswers[i] || '').toLowerCase();
-      const matched = q.keywords.filter(k => ans.includes(k));
-      correct = matched.length >= 2;
-      correctLabel = '키워드 2개 이상 포함 (복음, 경험, 증인, 실제, 하나님)';
+  let score=0;
+  const answersLog=[];
+  qs.forEach((q,i)=>{
+    let correct=false, correctLabel='';
+    if(q.type==='essay'){
+      const ans=(userAnswers[i]||'').toLowerCase();
+      correct=q.keywords.some(k=>ans.includes(k.toLowerCase()));
+      correctLabel=selectedLang==='ko'?'다윗':'David';
     } else {
-      correct = userAnswers[i] === q.answer;
-      correctLabel = q.options[q.answer];
+      correct=userAnswers[i]===q.answer;
+      correctLabel=q.options[q.answer];
     }
-
-    if (correct) score += q.points;
-
+    if(correct)score+=q.points;
     answersLog.push({
-      q_num: i + 1,
-      question: q.text.substring(0, 50),
-      user_answer: q.type === 'essay' ? (userAnswers[i] || '') : (userAnswers[i] !== null ? q.options[userAnswers[i]] : '미응답'),
-      correct_answer: correctLabel,
-      is_correct: correct,
-      points: correct ? q.points : 0
+      q_num:i+1,
+      question:q.text.substring(0,60),
+      user_answer:q.type==='essay'?(userAnswers[i]||''):(userAnswers[i]!==null?q.options[userAnswers[i]]:(selectedLang==='ko'?'미응답':'No answer')),
+      correct_answer:correctLabel,
+      is_correct:correct,
+      points:correct?q.points:0
     });
   });
 
-  const pass = score >= 80;
+  lastScore=score;
+  lastPass=score>=80;
 
-  // Firebase 저장
-  if (typeof window.saveResult === 'function') {
-    window.saveResult({
-      name: userName,
-      email: userEmail,
-      score: score,
-      pass_fail: pass ? 'PASS' : 'FAIL',
-      attempt: attempt,
-      answers: answersLog
-    }).then(() => {
-      document.getElementById('save-status').innerHTML =
-        '<div class="save-status">✓ 결과가 저장되었습니다</div>';
-    }).catch(() => {
-      document.getElementById('save-status').innerHTML =
-        '<div class="save-status">결과 저장 중 오류가 발생했습니다</div>';
-    });
+  if(typeof window.saveResult==='function'){
+    window.saveResult({name:userName,email:userEmail,score,pass_fail:lastPass?'PASS':'FAIL',attempt,lang:selectedLang,answers:answersLog})
+    .then(()=>{document.getElementById('save-status').innerHTML=`<div class="save-status">${selectedLang==='ko'?'✓ 결과가 저장되었습니다':'✓ Result saved'}</div>`;})
+    .catch(()=>{});
   }
 
-  showResults(score, answersLog, pass);
+  showResults(score, answersLog, lastPass);
 }
 
-function showResults(score, answersLog, pass) {
-  const correct = answersLog.filter(a => a.is_correct).length;
-
-  document.getElementById('result-hero-wrap').innerHTML = `
-    <div class="result-hero ${pass ? 'pass-bg' : 'fail-bg'}">
-      <div class="result-verdict">${userName}님의 결과</div>
-      <div class="result-score">${score}<span>점</span></div>
-      <div class="result-badge">${pass ? '✓ PASS' : '✗ FAIL'}</div>
+function showResults(score, answersLog, pass){
+  const isKo=selectedLang==='ko';
+  document.getElementById('result-hero-wrap').innerHTML=`
+    <div class="result-hero ${pass?'pass-bg':'fail-bg'}">
+      <div class="result-verdict">${userName}${isKo?'님의 결과':"'s Result"}</div>
+      <div class="result-score">${score}<span>${isKo?'점':'pts'}</span></div>
+      <div class="result-badge">${pass?'✓ PASS':'✗ FAIL'}</div>
       <div class="result-msg">${pass
-        ? '축하합니다! 필수강의를 성공적으로 수료하셨습니다.'
-        : attempt < 2
-          ? '80점 미만입니다. 재시험 기회가 1회 있습니다.'
-          : '재시험 기회가 모두 사용되었습니다.'}</div>
+        ?(isKo?'축하합니다! 필수강의를 합격하셨습니다.':'Congratulations! You have passed.')
+        :attempt<2
+          ?(isKo?'80점 미만입니다. 재시험 기회가 1회 있습니다.':'Below 80. You have one retake opportunity.')
+          :(isKo?'재시험 기회가 모두 사용되었습니다.':'No more retake attempts.')
+      }</div>
     </div>`;
 
-  document.getElementById('sc-correct').textContent = correct;
-  document.getElementById('sc-wrong').textContent = 10 - correct;
-  document.getElementById('sc-score').textContent = score + '점';
-
-  if (pass) {
-    const today = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
-    document.getElementById('cert-wrap').innerHTML = `
+  if(pass){
+    const today=new Date().toLocaleDateString(isKo?'ko-KR':'en-US',{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('cert-wrap').innerHTML=`
       <div class="cert">
         <div class="cert-cross">✞</div>
-        <div class="cert-eyebrow">Certificate of Completion</div>
-        <div class="cert-title">수 료 증</div>
-        <div>이 사람은</div>
+        <div class="cert-eyebrow">${isKo?'합 격 증':'Certificate of Achievement'}</div>
+        <div class="cert-title">${isKo?'합 격 증':'Achievement Certificate'}</div>
+        <div style="font-size:13px;color:var(--text-muted)">${isKo?'이 사람은':'This is to certify that'}</div>
         <div class="cert-name">${userName}</div>
-        <div class="cert-course">초대교회 선교훈련 BEYOND 필수강의<br>「복음과 선교」 — 김용의 선교사<br>를 성공적으로 수료하였음을 증명합니다.</div>
-        <div class="cert-score">${score}점 취득</div>
+        <div class="cert-course">${isKo?'초대교회 선교훈련 BEYOND 필수강의<br>「복음과 선교」 — 김용의 선교사<br>를 합격하였음을 증명합니다.':'has successfully passed the required lecture<br>"Gospel and Missions" — Missionary Yongui Kim<br>BEYOND Mission Training.'}</div>
+        <div class="cert-score">${score}${isKo?'점 취득':'pts'}</div>
         <div class="cert-date">${today}</div>
       </div>`;
   } else {
-    document.getElementById('cert-wrap').innerHTML = '';
+    document.getElementById('cert-wrap').innerHTML='';
   }
 
-  const detailHtml = answersLog.map(a => `
+  const correct=answersLog.filter(a=>a.is_correct).length;
+  document.getElementById('sc-correct').textContent=correct;
+  document.getElementById('sc-wrong').textContent=10-correct;
+  document.getElementById('sc-score').textContent=score+(isKo?'점':'pts');
+  document.getElementById('sc-correct-lbl').textContent=isKo?'정답':'Correct';
+  document.getElementById('sc-wrong-lbl').textContent=isKo?'오답':'Wrong';
+  document.getElementById('sc-score-lbl').textContent=isKo?'점수':'Score';
+  document.getElementById('detail-label').textContent=isKo?'문항별 채점 결과':'Question Results';
+
+  document.getElementById('detail-results').innerHTML=answersLog.map(a=>`
     <div class="result-item">
-      <div class="result-icon ${a.is_correct ? 'icon-correct' : 'icon-wrong'}">${a.is_correct ? '○' : '✕'}</div>
+      <div class="result-icon ${a.is_correct?'icon-correct':'icon-wrong'}">${a.is_correct?'○':'✕'}</div>
       <div class="result-item-text">
-        <div class="result-item-q">Q${a.q_num}. ${a.question}${a.question.length >= 50 ? '...' : ''}</div>
-        <div class="result-item-ans">내 답: ${a.user_answer}</div>
-        ${!a.is_correct ? `<div class="result-item-correct">정답: ${a.correct_answer}</div>` : ''}
+        <div class="result-item-q">Q${a.q_num}. ${a.question}${a.question.length>=60?'...':''}</div>
+        <div class="result-item-ans">${isKo?'내 답':'My answer'}: ${a.user_answer}</div>
+        ${!a.is_correct?`<div class="result-item-correct">${isKo?'정답':'Correct'}: ${a.correct_answer}</div>`:''}
       </div>
-      <div style="font-size:12px;font-weight:700;color:${a.is_correct ? 'var(--success)' : 'var(--danger)'}">
-        ${a.is_correct ? '+' + a.points : '0'}점
+      <div style="font-size:12px;font-weight:700;color:${a.is_correct?'var(--success)':'var(--danger)'}">
+        ${a.is_correct?'+'+a.points:'0'}${isKo?'점':'pts'}
       </div>
     </div>`).join('');
-  document.getElementById('detail-results').innerHTML = detailHtml;
 
-  if (!pass && attempt < 2) {
-    document.getElementById('retake-wrap').innerHTML = `
-      <button class="btn btn-outline" onclick="doRetake()">재시험 응시하기 →</button>
-      <button class="btn btn-outline" onclick="goHome()" style="margin-top:8px;">처음으로 돌아가기 ↩</button>`;
+  // 결과 후 버튼 구성
+  let actionsHtml='';
+  if(!pass && attempt<2){
+    // FAIL + 재시험 가능: 재시험 버튼 + 요약보기 버튼
+    actionsHtml=`
+      <button class="btn btn-primary" onclick="doRetake()" style="margin-top:8px;">${isKo?'재시험 응시하기 →':'Retake Quiz →'}</button>
+      <button class="btn btn-outline" onclick="goSummary()">${isKo?'요약본 보기':'View Summary'}</button>`;
   } else {
-    document.getElementById('retake-wrap').innerHTML =
-      '<button class="btn btn-outline" onclick="goHome()" style="margin-top:8px;">처음으로 돌아가기 ↩</button>';
+    // PASS 또는 재시험 후: 요약보기 버튼 + 홈 버튼
+    actionsHtml=`
+      <button class="btn btn-primary" onclick="goSummary()" style="margin-top:8px;">${isKo?'강의 요약 보기 →':'View Lecture Summary →'}</button>
+      <button class="btn btn-outline" onclick="goHome()">${isKo?'처음으로 돌아가기 ↩':'Go to Home ↩'}</button>`;
   }
+  document.getElementById('result-actions').innerHTML=actionsHtml;
 
-  showPage('page4', 3);
+  showPage('page3',3);
 }
 
-function doRetake() {
-  attempt = 2;
-  goQuiz();
+function doRetake(){
+  attempt=2;
+  userAnswers=Array(10).fill(null);
+  const banner=document.getElementById('attempt-banner');
+  const isKo=selectedLang==='ko';
+  banner.innerHTML=`<div class="attempt-banner">⚠ ${isKo?'재시험입니다. 마지막 기회입니다. (1회/1회 사용)':'Retake. This is your last attempt.'}</div>`;
+  renderQuiz();
+  showPage('page2',2);
 }
 
-function goHome() {
-  attempt = 1;
-  userName = '';
-  userEmail = '';
-  userAnswers = Array(10).fill(null);
-  document.getElementById('inp-email').value = '';
-  document.getElementById('inp-name').value = '';
-  showPage('page1', 1);
+function goSummary(){
+  const isKo=selectedLang==='ko';
+  document.getElementById('summary-ko').style.display=isKo?'block':'none';
+  document.getElementById('summary-en').style.display=isKo?'none':'block';
+  document.getElementById('summary-title').textContent=isKo?'강의 요약':'Lecture Summary';
+  document.getElementById('home-btn').textContent=isKo?'처음으로 돌아가기 ↩':'Go to Home ↩';
+  document.getElementById('summary-score-bar').innerHTML=`
+    <div class="summary-score-bar">
+      <div class="summary-score-num">${lastScore}${isKo?'점':'pts'}</div>
+      <div class="summary-score-info">
+        ${userName}<span class="pf-badge ${lastPass?'pf-pass':'pf-fail'}">${lastPass?'PASS':'FAIL'}</span>
+      </div>
+    </div>`;
+  showPage('page4',4);
+}
+
+function goHome(){
+  attempt=1; userName=''; userEmail='';
+  userAnswers=Array(10).fill(null); lastScore=0; lastPass=false;
+  document.getElementById('inp-email').value='';
+  document.getElementById('inp-name').value='';
+  selectLang('ko');
+  showPage('page1',1);
 }
 </script>
 </body>
