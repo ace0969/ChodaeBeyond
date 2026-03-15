@@ -239,50 +239,7 @@ body {
 
 .btn-outline:hover { background: var(--primary-pale); }
 
-.video-section {
-  background: var(--surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  overflow: hidden;
-  margin-bottom: 16px;
-  box-shadow: var(--shadow);
-}
 
-.video-header {
-  background: var(--primary);
-  padding: 14px 20px;
-  color: white;
-}
-
-.video-header h3 { font-size: 14px; font-weight: 500; }
-.video-header p { font-size: 12px; opacity: 0.75; margin-top: 2px; }
-
-.video-wrapper {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-}
-
-.video-wrapper iframe {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  border: none;
-}
-
-.video-fallback {
-  padding: 20px;
-  text-align: center;
-  border-top: 1px solid var(--border);
-}
-
-.video-fallback a {
-  color: var(--primary);
-  font-size: 13px;
-  text-decoration: none;
-  font-weight: 500;
-}
 
 .progress-section { margin-bottom: 20px; }
 
@@ -616,26 +573,18 @@ body {
 <!-- PAGE 2: 강의 -->
 <div id="page2" class="page">
   <div class="container">
-    <div class="video-section">
-      <div class="video-header">
-        <h3>Section 1 — 강의 시청</h3>
-        <p>김용의 선교사 · 복음과 선교</p>
-      </div>
-      <div class="video-wrapper">
-        <iframe
-          src="https://www.youtube.com/embed/uyhm4rMkhow?rel=0"
-          title="김용의 선교사 - 복음과 선교"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-      </div>
-      <div class="video-fallback">
-        <a href="https://youtu.be/uyhm4rMkhow?si=LuWs1iIahg-5NKHo" target="_blank">▶ 영상이 재생되지 않으면 여기를 클릭하세요</a>
-      </div>
+    <div class="hero">
+      <div class="hero-eyebrow">Section 1 — 강의 시청</div>
+      <h1>복음과 선교</h1>
+      <p class="hero-sub">김용의 선교사 강의를 아래 링크에서 시청해주세요.<br>시청 완료 후 퀴즈를 시작해주세요.</p>
     </div>
-    <div class="card">
-      <div class="card-label">다음 단계 안내</div>
-      <p style="font-size:13px;color:var(--text-muted);line-height:1.7;">강의를 모두 시청하신 후 아래 버튼을 눌러 퀴즈를 시작해주세요.<br>강의 내용을 바탕으로 10문제가 출제됩니다.</p>
+    <div class="card" style="text-align:center; padding: 28px 20px;">
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">아래 버튼을 눌러 YouTube에서 강의를 시청해주세요</p>
+      <a href="https://youtu.be/uyhm4rMkhow?si=LuWs1iIahg-5NKHo" target="_blank"
+        style="display:inline-block; background:var(--primary); color:white; padding:12px 28px; border-radius:12px; font-size:15px; font-weight:700; text-decoration:none; font-family:'Noto Sans KR',sans-serif;">
+        ▶ YouTube에서 강의 시청하기
+      </a>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:12px;">강의를 모두 시청하신 후 아래 버튼을 눌러 퀴즈를 시작해주세요</p>
     </div>
     <button class="btn btn-primary" onclick="goQuiz()">강의 완료 → 퀴즈 시작</button>
   </div>
@@ -773,7 +722,17 @@ function setDots(active) {
   }
 }
 
+function stopVideo() {
+  const iframe = document.querySelector('#page2 iframe');
+  if (iframe) {
+    const src = iframe.src;
+    iframe.src = '';
+    iframe.src = src;
+  }
+}
+
 function showPage(id, dotNum) {
+  if (id !== 'page2') stopVideo();
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   setDots(dotNum);
@@ -965,10 +924,12 @@ function showResults(score, answersLog, pass) {
   document.getElementById('detail-results').innerHTML = detailHtml;
 
   if (!pass && attempt < 2) {
-    document.getElementById('retake-wrap').innerHTML =
-      '<button class="btn btn-outline" onclick="doRetake()">재시험 응시하기 →</button>';
+    document.getElementById('retake-wrap').innerHTML = `
+      <button class="btn btn-outline" onclick="doRetake()">재시험 응시하기 →</button>
+      <button class="btn btn-outline" onclick="goHome()" style="margin-top:8px;">처음으로 돌아가기 ↩</button>`;
   } else {
-    document.getElementById('retake-wrap').innerHTML = '';
+    document.getElementById('retake-wrap').innerHTML =
+      '<button class="btn btn-outline" onclick="goHome()" style="margin-top:8px;">처음으로 돌아가기 ↩</button>';
   }
 
   showPage('page4', 4);
@@ -977,6 +938,16 @@ function showResults(score, answersLog, pass) {
 function doRetake() {
   attempt = 2;
   goQuiz();
+}
+
+function goHome() {
+  attempt = 1;
+  userName = '';
+  userEmail = '';
+  userAnswers = Array(10).fill(null);
+  document.getElementById('inp-email').value = '';
+  document.getElementById('inp-name').value = '';
+  showPage('page1', 1);
 }
 </script>
 </body>
