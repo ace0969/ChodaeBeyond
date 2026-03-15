@@ -67,7 +67,7 @@ const QUESTIONS_KO = [
       'A) 선교지의 민족을 사랑하며, 타 문화권의 언어와 문화를 습득하고 선교를 준비하는 자',
       'B) 리더쉽을 가지고 선교팀을 잘 이끌어 가며, 현지인들과 소통을 잘 하는 자',
       'C) 10 년 이상 꾸준히 시간과 물질을 들여 선교 사역에 참여한 자',
-      'D) 모든 민족을 제자 삼으라는 주님의 명령에 순종하며, 하나님의 마음에 합한 자이나 존재감이 없는 자'
+      'D) 겉으로 화려하게 드러나지는 않지만 모든 민족을 제자 삼으라는 주님의 명령에 묵묵히 순종함으로 하나님의 마음에 합한 자'
     ],
     answer: 3, points: 10
   },
@@ -150,7 +150,7 @@ const QUESTIONS_EN = [
       'A) One who loves the people of the mission field and learns the language and culture perfectly',
       'B) One who leads the mission team well with strong leadership skills and communicates well with locals',
       'C) One who has consistently invested time and money in mission work for over 10 years',
-      "D) One who matches God's heart and completes His redemptive plan, even if they have no outward presence"
+      "D) One who may not stand out outwardly, yet quietly obeys the Lord's command to make disciples of all nations, and whose heart aligns with God's own heart"
     ],
     answer: 3, points: 10
   },
