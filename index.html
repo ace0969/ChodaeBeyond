@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>초대교회 선교훈련 BEYOND</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+
+<!-- Google Sheets 연동 -->
+<script>
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwD1qtvnQsBBceSSi_pGstebi-hddi5_vhPfDgQrzj5-uifnMe7yGTGBcrsryj8_rXt/exec";
+
+  window.saveResult = async function(data) {
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      console.log("Google Sheets 저장 완료");
+    } catch (e) {
+      console.error("저장 실패:", e);
+    }
+  };
+</script>
+
+<style>
+:root {
+  --primary: #4B2E8A;
+  --primary-light: #7B5CC4;
+  --primary-pale: #F0EBF8;
+  --accent: #D4AF37;
+  --bg: #FAFAF8;
+  --surface: #FFFFFF;
+  --text: #1A1A2E;
+  --text-muted: #6B6B80;
+  --border: rgba(75,46,138,0.12);
+  --success: #2D7A4F;
+  --success-bg: #EAF7F0;
+  --danger: #9B2335;
+  --danger-bg: #FCEEF0;
+  --radius: 14px;
+  --shadow: 0 2px 20px rgba(75,46,138,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 0 0 80px;
+}
+
+.top-bar {
+  background: var(--primary);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.top-bar-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.5px;
+}
+
+.step-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.step-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transition: all 0.3s;
+}
+.step-dot.active { background: var(--accent); transform: scale(1.2); }
+.step-dot.done { background: rgba(255,255,255,0.7); }
+
+.container { max-width: 680px; margin: 0 auto; padding: 24px 16px; }
+
+.page { display: none; animation: fadeIn 0.4s ease; }
+.page.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  color: white;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: rgba(212,175,55,0.15);
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -20px; left: 20px;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.hero-sub {
+  font-size: 13px;
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+.info-pills {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  color: white;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+
+.card-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--primary-light);
+  margin-bottom: 12px;
+}
+
+.form-group { margin-bottom: 16px; }
+.form-group:last-child { margin-bottom: 0; }
+
+.form-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.req { color: var(--danger); margin-left: 2px; }
+
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.form-input:focus { border-color: var(--primary-light); background: white; }
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover { background: var(--primary-light); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-outline {
+  background: white;
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
+  margin-top: 10px;
+}
+
+.btn-outline:hover { background: var(--primary-pale); }
+
+.video-section {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+
+.video-header {
+  background: var(--primary);
+  padding: 14px 20px;
+  color: white;
+}
+
+.video-header h3 { font-size: 14px; font-weight: 500; }
+.video-header p { font-size: 12px; opacity: 0.75; margin-top: 2px; }
+
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+}
+
+.video-fallback {
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+
+.video-fallback a {
+  color: var(--primary);
+  font-size: 13px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.progress-section { margin-bottom: 20px; }
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.progress-label { font-size: 13px; color: var(--text-muted); }
+.progress-count { font-size: 13px; font-weight: 700; color: var(--primary); }
+
+.progress-track {
+  height: 5px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.q-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+  transition: border-color 0.2s;
+}
+
+.q-card.answered { border-color: rgba(75,46,138,0.3); }
+
+.q-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.q-num-badge {
+  min-width: 28px; height: 28px;
+  background: var(--primary);
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.q-text { font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--text); flex: 1; }
+
+.q-pts {
+  font-size: 11px;
+  background: var(--primary-pale);
+  color: var(--primary);
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.options { display: flex; flex-direction: column; gap: 8px; }
+
+.option-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg);
+  transition: all 0.15s;
+  text-align: left;
+  font-family: 'Noto Sans KR', sans-serif;
+  width: 100%;
+}
+
+.option-btn:hover { border-color: var(--primary-light); background: var(--primary-pale); }
+
+.option-btn.selected {
+  border-color: var(--primary);
+  background: var(--primary-pale);
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.option-circle {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+}
+
+.option-btn.selected .option-circle {
+  background: var(--primary);
+  border-color: var(--primary);
+  opacity: 1;
+}
+
+.option-btn.selected .option-circle::after {
+  content: '';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: white;
+}
+
+.essay-area {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-size: 13px;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  resize: vertical;
+  min-height: 90px;
+  outline: none;
+  transition: border-color 0.2s;
+  line-height: 1.7;
+}
+
+.essay-area:focus { border-color: var(--primary-light); background: white; }
+
+.keyword-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.attempt-banner {
+  background: #FFF8E1;
+  border: 1px solid #F0C040;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #7A5800;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Result Page */
+.result-hero {
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.result-hero.pass-bg {
+  background: linear-gradient(135deg, #1B5E35, #2D7A4F);
+  color: white;
+}
+
+.result-hero.fail-bg {
+  background: linear-gradient(135deg, #7A1A28, #9B2335);
+  color: white;
+}
+
+.result-verdict {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-bottom: 8px;
+}
+
+.result-score { font-size: 64px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+.result-score span { font-size: 24px; font-weight: 300; }
+.result-badge { font-size: 22px; font-weight: 700; letter-spacing: 2px; }
+.result-msg { font-size: 13px; opacity: 0.85; margin-top: 10px; line-height: 1.6; }
+
+/* Certificate */
+.cert {
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 30px 24px;
+  text-align: center;
+  background: white;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.cert::before {
+  content: '';
+  position: absolute;
+  top: 8px; left: 8px; right: 8px; bottom: 8px;
+  border: 0.5px solid rgba(212,175,55,0.3);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.cert-cross { color: var(--accent); font-size: 22px; margin-bottom: 10px; }
+.cert-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; }
+.cert-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--primary); margin-bottom: 6px; }
+.cert-name { font-size: 26px; font-weight: 700; color: var(--text); border-bottom: 1.5px solid var(--accent); display: inline-block; padding-bottom: 4px; margin: 8px 0 14px; }
+.cert-course { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+.cert-score { font-size: 13px; color: var(--primary); font-weight: 700; margin-top: 12px; }
+.cert-date { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+/* Detail results */
+.result-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.result-item:last-child { border-bottom: none; }
+
+.result-icon {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.icon-correct { background: var(--success-bg); color: var(--success); }
+.icon-wrong { background: var(--danger-bg); color: var(--danger); }
+
+.result-item-text { flex: 1; line-height: 1.5; }
+.result-item-q { color: var(--text-muted); margin-bottom: 2px; }
+.result-item-ans { font-weight: 500; color: var(--text); }
+.result-item-correct { color: var(--success); font-size: 12px; }
+
+/* Summary */
+.summary-content { font-size: 13px; line-height: 1.8; color: var(--text-muted); }
+.summary-h { font-size: 14px; font-weight: 700; color: var(--primary); margin: 14px 0 6px; }
+.summary-h:first-child { margin-top: 0; }
+
+.save-status {
+  font-size: 12px;
+  text-align: center;
+  color: var(--text-muted);
+  margin-top: 12px;
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--bg);
+}
+
+.score-breakdown {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.score-cell {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.score-cell-val { font-size: 20px; font-weight: 700; color: var(--primary); }
+.score-cell-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <span class="top-bar-title">선교훈련 BEYOND</span>
+  <div class="step-dots">
+    <div class="step-dot active" id="dot1"></div>
+    <div class="step-dot" id="dot2"></div>
+    <div class="step-dot" id="dot3"></div>
+    <div class="step-dot" id="dot4"></div>
+  </div>
+</div>
+
+<!-- PAGE 1: 등록 -->
+<div id="page1" class="page active">
+  <div class="container">
+    <div class="hero">
+      <div class="hero-eyebrow">초대교회 선교훈련 BEYOND</div>
+      <h1>필수강의<br>복음과 선교</h1>
+      <p class="hero-sub">김용의 선교사 · Section 1 강의 수강 후<br>Section 2 퀴즈를 완료하면 수강이 완료됩니다</p>
+      <div class="info-pills">
+        <span class="pill">10문제</span>
+        <span class="pill">100점 만점</span>
+        <span class="pill">80점 이상 PASS</span>
+        <span class="pill">재시험 1회</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">참가자 정보</div>
+      <div class="form-group">
+        <label class="form-label">이메일<span class="req">*</span></label>
+        <input class="form-input" type="email" id="inp-email" placeholder="email@example.com" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">이름<span class="req">*</span></label>
+        <input class="form-input" type="text" id="inp-name" placeholder="홍길동" />
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="goVideo()">다음: 강의 시청 →</button>
+  </div>
+</div>
+
+<!-- PAGE 2: 강의 -->
+<div id="page2" class="page">
+  <div class="container">
+    <div class="video-section">
+      <div class="video-header">
+        <h3>Section 1 — 강의 시청</h3>
+        <p>김용의 선교사 · 복음과 선교</p>
+      </div>
+      <div class="video-wrapper">
+        <iframe
+          src="https://www.youtube.com/embed/uyhm4rMkhow?rel=0"
+          title="김용의 선교사 - 복음과 선교"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="video-fallback">
+        <a href="https://youtu.be/uyhm4rMkhow?si=LuWs1iIahg-5NKHo" target="_blank">▶ 영상이 재생되지 않으면 여기를 클릭하세요</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">다음 단계 안내</div>
+      <p style="font-size:13px;color:var(--text-muted);line-height:1.7;">강의를 모두 시청하신 후 아래 버튼을 눌러 퀴즈를 시작해주세요.<br>강의 내용을 바탕으로 10문제가 출제됩니다.</p>
+    </div>
+    <button class="btn btn-primary" onclick="goQuiz()">강의 완료 → 퀴즈 시작</button>
+  </div>
+</div>
+
+<!-- PAGE 3: 퀴즈 -->
+<div id="page3" class="page">
+  <div class="container">
+    <div id="attempt-banner"></div>
+    <div class="progress-section">
+      <div class="progress-info">
+        <span class="progress-label">Section 2 — 퀴즈</span>
+        <span class="progress-count" id="progress-txt">0 / 10</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+    <div id="quiz-wrap"></div>
+    <button class="btn btn-primary" onclick="submitQuiz()" style="margin-top:8px;">제출하기</button>
+  </div>
+</div>
+
+<!-- PAGE 4: 결과 -->
+<div id="page4" class="page">
+  <div class="container">
+    <div id="result-hero-wrap"></div>
+    <div id="cert-wrap"></div>
+    <div class="score-breakdown">
+      <div class="score-cell">
+        <div class="score-cell-val" id="sc-correct">0</div>
+        <div class="score-cell-lbl">정답</div>
+      </div>
+      <div class="score-cell">
+        <div class="score-cell-val" id="sc-wrong">0</div>
+        <div class="score-cell-lbl">오답</div>
+      </div>
+      <div class="score-cell">
+        <div class="score-cell-val" id="sc-score">0점</div>
+        <div class="score-cell-lbl">점수</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">문항별 채점 결과</div>
+      <div id="detail-results"></div>
+    </div>
+    <div class="card">
+      <div class="card-label">강의 요약</div>
+      <div class="summary-content">
+        <div class="summary-h">1. 대체 불가 (에스라 8:15,17 / 이사야 6:8)</div>
+        하나님의 선하심을 알고, 영령을 듣고, 경험하는 사람만이 선교를 갈 수 있다. 하나님의 "내가 누구를 보내며"라는 질문에 대체 불가하며 갈 수 있는 사람은: 자신에게 와 닿은 진리를 보고, 하나님의 마음과 음성을 듣고, 그 상황을 담임해 하나님께 예배드리는 사람.
+        <div class="summary-h">2. 역사의 고리 (열왕기하 7:9)</div>
+        구약에서는 레위인, 신약에서는 예수 그리스도의 증인으로 연결되는 고리. 선교는 신학적·철학적 사명감이 아닌 복음이 실제로 자신에게 나타난 증인들에 의해 이루어짐. 알면서도 전하지 않는 것은 그릇된 일.
+        <div class="summary-h">3. 마지막 퍼즐 (사도행전 13:21)</div>
+        하나님의 역사는 마지막 한 조각 퍼즐이 맞춰질 때 완성됨. 선교는 잃어버린 한 마리 양이 돌아올 때까지 찾으시는 주님의 마음으로 해야 함. 역사의 연결 고리 하나 하나가 끊어지지 않도록 하는 것이 중요.
+      </div>
+    </div>
+    <div id="save-status"></div>
+    <div id="retake-wrap"></div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    type: 'mc',
+    text: '김용의 선교사님의 선교 강의에서 강조하신 주요 주제에 속하지 않는 개념은?',
+    options: ['A) 대체 불가', 'B) 선교 정책과 전략', 'C) 역사의 고리', 'D) 마지막 퍼즐'],
+    answer: 1, points: 10
+  },
+  {
+    type: 'mc',
+    text: '이사야 6:8에서 하나님이 "내가 누구를 보내며"라고 하실 때, 선교를 갈 수 있는 사람의 조건으로 올바른 것은?',
+    options: ['A) 신학 교육을 받은 자', 'B) 하나님의 마음과 음성을 듣고 경험한 자', 'C) 선교 전략을 수립한 자', 'D) 교회 직분자'],
+    answer: 1, points: 10
+  },
+  {
+    type: 'mc',
+    text: '에스라 8:15-17에서 강조된 "대체 불가"의 의미로 가장 적절한 것은?',
+    options: ['A) 레위인만 선교할 수 있다', 'B) 하나님의 선하심을 알고 경험한 자가 선교를 감당한다', 'C) 선교는 전문가만 할 수 있다', 'D) 자원하는 자가 항상 선교에 적합하다'],
+    answer: 1, points: 10
+  },
+  {
+    type: 'mc',
+    text: '"역사의 고리"에서 구약과 신약의 연결고리로 올바르게 짝지어진 것은?',
+    options: ['A) 제사장 / 사도', 'B) 레위인 / 예수 그리스도의 증인', 'C) 선지자 / 집사', 'D) 왕 / 전도자'],
+    answer: 1, points: 10
+  },
+  {
+    type: 'mc',
+    text: '열왕기하 7:9에서 사마리아 성문의 나병환자들이 깨달은 것은?',
+    options: ['A) 음식을 나누어 먹어야 한다', 'B) 기쁜 소식을 전하지 않는 것은 그릇된 일이다', 'C) 왕에게 먼저 보고해야 한다', 'D) 성 안으로 들어가면 안 된다'],
+    answer: 1, points: 10
+  },
+  {
+    type: 'mc',
+    text: '선교의 증인(Witness)에 대한 올바른 설명은?',
+    options: ['A) 신학 학위를 가진 자', 'B) 선교 훈련을 이수한 자', 'C) 복음이 자신에게 실제로 나타나서 보고 경험한 자', 'D) 교회에서 임명된 자'],
+    answer: 2, points: 10
+  },
+  {
+    type: 'mc',
+    text: '"마지막 퍼즐" 비유에서 사도행전 13:21의 핵심 의미는?',
+    options: ['A) 이스라엘 왕들의 역사 기록', 'B) 하나님의 역사는 마지막 한 조각이 맞춰질 때 완성된다', 'C) 사울왕의 즉위식', 'D) 바울의 1차 선교 여정'],
+    answer: 1, points: 10
+  },
+  {
+    type: 'tf',
+    text: '선교는 신학적, 철학적, 논리적 사명감이 있는 사람들이 자진하여 가는 취사선택이다.',
+    options: ['O (True)', 'X (False)'],
+    answer: 1, points: 10
+  },
+  {
+    type: 'tf',
+    text: '구약에서 레위인이 없으면 예배의 회복과 언약의 실현이 불가능했다.',
+    options: ['O (True)', 'X (False)'],
+    answer: 0, points: 10
+  },
+  {
+    type: 'essay',
+    text: '"역사의 고리"에서 선교사가 갖추어야 할 증인의 자격을 본인의 말로 서술하시오.',
+    keywords: ['복음', '경험', '증인', '실제', '하나님'],
+    points: 10
+  }
+];
+
+let userName = '', userEmail = '';
+let userAnswers = Array(10).fill(null);
+let attempt = 1;
+
+function setDots(active) {
+  for (let i = 1; i <= 4; i++) {
+    const d = document.getElementById('dot' + i);
+    d.className = 'step-dot' + (i < active ? ' done' : i === active ? ' active' : '');
+  }
+}
+
+function showPage(id, dotNum) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  setDots(dotNum);
+  window.scrollTo(0, 0);
+}
+
+function goVideo() {
+  const email = document.getElementById('inp-email').value.trim();
+  const name = document.getElementById('inp-name').value.trim();
+  if (!email || !name) { alert('이메일과 이름을 모두 입력해주세요.'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('올바른 이메일 형식을 입력해주세요.'); return; }
+  userName = name;
+  userEmail = email;
+  showPage('page2', 2);
+}
+
+function goQuiz() {
+  userAnswers = Array(10).fill(null);
+  const banner = document.getElementById('attempt-banner');
+  banner.innerHTML = attempt > 1
+    ? '<div class="attempt-banner">⚠ 재시험입니다. 마지막 기회입니다. (1회/1회 사용)</div>'
+    : '';
+  renderQuiz();
+  showPage('page3', 3);
+}
+
+function renderQuiz() {
+  const wrap = document.getElementById('quiz-wrap');
+  wrap.innerHTML = '';
+  QUESTIONS.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'q-card';
+    div.id = 'qc-' + i;
+
+    let body = '';
+    if (q.type === 'essay') {
+      body = `
+        <textarea class="essay-area" id="essay-${i}"
+          placeholder="답변을 입력해주세요..."
+          oninput="handleEssay(${i}, this.value)">${userAnswers[i] || ''}</textarea>
+        <p class="keyword-hint">힌트: 핵심 키워드를 포함하여 서술해주세요</p>`;
+    } else {
+      body = `<div class="options">` + q.options.map((opt, j) => `
+        <button class="option-btn ${userAnswers[i] === j ? 'selected' : ''}" id="opt-${i}-${j}" onclick="selectOpt(${i},${j})">
+          <span class="option-circle"></span>${opt}
+        </button>`).join('') + `</div>`;
+    }
+
+    div.innerHTML = `
+      <div class="q-header">
+        <div class="q-num-badge">${i + 1}</div>
+        <div class="q-text">${q.text}</div>
+        <div class="q-pts">${q.points}점</div>
+      </div>
+      ${body}`;
+    wrap.appendChild(div);
+  });
+  updateProgress();
+}
+
+function selectOpt(qi, oi) {
+  QUESTIONS[qi].options.forEach((_, j) => {
+    const el = document.getElementById(`opt-${qi}-${j}`);
+    if (el) el.className = 'option-btn';
+  });
+  const sel = document.getElementById(`opt-${qi}-${oi}`);
+  if (sel) sel.className = 'option-btn selected';
+  userAnswers[qi] = oi;
+  document.getElementById('qc-' + qi).classList.add('answered');
+  updateProgress();
+}
+
+function handleEssay(qi, val) {
+  userAnswers[qi] = val;
+  document.getElementById('qc-' + qi).classList.toggle('answered', val.trim().length > 0);
+  updateProgress();
+}
+
+function updateProgress() {
+  const cnt = userAnswers.filter(a => a !== null && a !== '').length;
+  document.getElementById('progress-txt').textContent = cnt + ' / 10';
+  document.getElementById('progress-fill').style.width = (cnt / 10 * 100) + '%';
+}
+
+function submitQuiz() {
+  const unanswered = userAnswers.filter(a => a === null || a === '').length;
+  if (unanswered > 0 && !confirm(`${unanswered}문제가 미답변입니다. 그래도 제출할까요?`)) return;
+
+  let score = 0;
+  const answersLog = [];
+
+  QUESTIONS.forEach((q, i) => {
+    let correct = false;
+    let correctLabel = '';
+
+    if (q.type === 'essay') {
+      const ans = (userAnswers[i] || '').toLowerCase();
+      const matched = q.keywords.filter(k => ans.includes(k));
+      correct = matched.length >= 2;
+      correctLabel = '키워드 2개 이상 포함 (복음, 경험, 증인, 실제, 하나님)';
+    } else {
+      correct = userAnswers[i] === q.answer;
+      correctLabel = q.options[q.answer];
+    }
+
+    if (correct) score += q.points;
+
+    answersLog.push({
+      q_num: i + 1,
+      question: q.text.substring(0, 50),
+      user_answer: q.type === 'essay' ? (userAnswers[i] || '') : (userAnswers[i] !== null ? q.options[userAnswers[i]] : '미응답'),
+      correct_answer: correctLabel,
+      is_correct: correct,
+      points: correct ? q.points : 0
+    });
+  });
+
+  const pass = score >= 80;
+
+  // Firebase 저장
+  if (typeof window.saveResult === 'function') {
+    window.saveResult({
+      name: userName,
+      email: userEmail,
+      score: score,
+      pass_fail: pass ? 'PASS' : 'FAIL',
+      attempt: attempt,
+      answers: answersLog
+    }).then(() => {
+      document.getElementById('save-status').innerHTML =
+        '<div class="save-status">✓ 결과가 저장되었습니다</div>';
+    }).catch(() => {
+      document.getElementById('save-status').innerHTML =
+        '<div class="save-status">결과 저장 중 오류가 발생했습니다</div>';
+    });
+  }
+
+  showResults(score, answersLog, pass);
+}
+
+function showResults(score, answersLog, pass) {
+  const correct = answersLog.filter(a => a.is_correct).length;
+
+  document.getElementById('result-hero-wrap').innerHTML = `
+    <div class="result-hero ${pass ? 'pass-bg' : 'fail-bg'}">
+      <div class="result-verdict">${userName}님의 결과</div>
+      <div class="result-score">${score}<span>점</span></div>
+      <div class="result-badge">${pass ? '✓ PASS' : '✗ FAIL'}</div>
+      <div class="result-msg">${pass
+        ? '축하합니다! 필수강의를 성공적으로 수료하셨습니다.'
+        : attempt < 2
+          ? '80점 미만입니다. 재시험 기회가 1회 있습니다.'
+          : '재시험 기회가 모두 사용되었습니다.'}</div>
+    </div>`;
+
+  document.getElementById('sc-correct').textContent = correct;
+  document.getElementById('sc-wrong').textContent = 10 - correct;
+  document.getElementById('sc-score').textContent = score + '점';
+
+  if (pass) {
+    const today = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+    document.getElementById('cert-wrap').innerHTML = `
+      <div class="cert">
+        <div class="cert-cross">✞</div>
+        <div class="cert-eyebrow">Certificate of Completion</div>
+        <div class="cert-title">수 료 증</div>
+        <div>이 사람은</div>
+        <div class="cert-name">${userName}</div>
+        <div class="cert-course">초대교회 선교훈련 BEYOND 필수강의<br>「복음과 선교」 — 김용의 선교사<br>를 성공적으로 수료하였음을 증명합니다.</div>
+        <div class="cert-score">${score}점 취득</div>
+        <div class="cert-date">${today}</div>
+      </div>`;
+  } else {
+    document.getElementById('cert-wrap').innerHTML = '';
+  }
+
+  const detailHtml = answersLog.map(a => `
+    <div class="result-item">
+      <div class="result-icon ${a.is_correct ? 'icon-correct' : 'icon-wrong'}">${a.is_correct ? '○' : '✕'}</div>
+      <div class="result-item-text">
+        <div class="result-item-q">Q${a.q_num}. ${a.question}${a.question.length >= 50 ? '...' : ''}</div>
+        <div class="result-item-ans">내 답: ${a.user_answer}</div>
+        ${!a.is_correct ? `<div class="result-item-correct">정답: ${a.correct_answer}</div>` : ''}
+      </div>
+      <div style="font-size:12px;font-weight:700;color:${a.is_correct ? 'var(--success)' : 'var(--danger)'}">
+        ${a.is_correct ? '+' + a.points : '0'}점
+      </div>
+    </div>`).join('');
+  document.getElementById('detail-results').innerHTML = detailHtml;
+
+  if (!pass && attempt < 2) {
+    document.getElementById('retake-wrap').innerHTML =
+      '<button class="btn btn-outline" onclick="doRetake()">재시험 응시하기 →</button>';
+  } else {
+    document.getElementById('retake-wrap').innerHTML = '';
+  }
+
+  showPage('page4', 4);
+}
+
+function doRetake() {
+  attempt = 2;
+  goQuiz();
+}
+</script>
+</body>
+</html>
