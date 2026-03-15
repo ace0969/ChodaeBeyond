@@ -104,16 +104,56 @@ body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--
 .score-cell-val { font-size:20px; font-weight:700; color:var(--primary); }
 .score-cell-lbl { font-size:11px; color:var(--text-muted); margin-top:2px; }
 
-/* Certificate → 합격증 */
-.cert { border:2px solid var(--accent); border-radius:var(--radius); padding:30px 24px; text-align:center; background:white; margin-bottom:16px; position:relative; }
-.cert::before { content:''; position:absolute; top:8px; left:8px; right:8px; bottom:8px; border:0.5px solid rgba(212,175,55,0.3); border-radius:10px; pointer-events:none; }
-.cert-cross { color:var(--accent); font-size:22px; margin-bottom:10px; }
-.cert-eyebrow { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--text-muted); margin-bottom:12px; }
-.cert-title { font-family:'Playfair Display',serif; font-size:22px; color:var(--primary); margin-bottom:6px; }
-.cert-name { font-size:26px; font-weight:700; color:var(--text); border-bottom:1.5px solid var(--accent); display:inline-block; padding-bottom:4px; margin:8px 0 14px; }
-.cert-course { font-size:13px; color:var(--text-muted); line-height:1.6; }
-.cert-score { font-size:13px; color:var(--primary); font-weight:700; margin-top:12px; }
-.cert-date { font-size:12px; color:var(--text-muted); margin-top:4px; }
+/* 합격증 - 화려한 버전 */
+.cert {
+  position:relative; margin-bottom:16px; border-radius:16px; overflow:hidden;
+  background: linear-gradient(145deg, #1a0533 0%, #2d1060 40%, #1a0533 100%);
+  padding: 40px 28px 32px;
+  text-align:center;
+  box-shadow: 0 8px 40px rgba(75,46,138,0.4);
+}
+.cert-corner {
+  position:absolute; width:60px; height:60px;
+  border-color: rgba(212,175,55,0.6); border-style:solid;
+}
+.cert-corner-tl { top:12px; left:12px; border-width:2px 0 0 2px; border-radius:6px 0 0 0; }
+.cert-corner-tr { top:12px; right:12px; border-width:2px 2px 0 0; border-radius:0 6px 0 0; }
+.cert-corner-bl { bottom:12px; left:12px; border-width:0 0 2px 2px; border-radius:0 0 0 6px; }
+.cert-corner-br { bottom:12px; right:12px; border-width:0 2px 2px 0; border-radius:0 0 6px 0; }
+.cert-stars { color:#D4AF37; font-size:18px; letter-spacing:8px; margin-bottom:6px; opacity:0.8; }
+.cert-congratulations {
+  font-family:'Playfair Display',serif;
+  font-size:13px; letter-spacing:4px; text-transform:uppercase;
+  color:#D4AF37; margin-bottom:6px; opacity:0.9;
+}
+.cert-title-ko {
+  font-family:'Playfair Display',serif;
+  font-size:30px; font-weight:600;
+  color:#ffffff; margin-bottom:4px;
+  text-shadow: 0 0 20px rgba(212,175,55,0.5);
+}
+.cert-divider {
+  width:80px; height:1.5px;
+  background:linear-gradient(90deg,transparent,#D4AF37,transparent);
+  margin:12px auto;
+}
+.cert-certify { font-size:12px; color:rgba(255,255,255,0.6); letter-spacing:1px; margin-bottom:4px; }
+.cert-name {
+  font-size:28px; font-weight:700; color:#ffffff;
+  margin:8px 0 12px;
+  text-shadow: 0 2px 10px rgba(212,175,55,0.4);
+  border-bottom: none;
+  padding-bottom: 0;
+  display: block;
+}
+.cert-course { font-size:12px; color:rgba(255,255,255,0.75); line-height:1.8; }
+.cert-badge {
+  display:inline-block; margin:14px auto 0;
+  background:linear-gradient(135deg,#D4AF37,#F5D77E,#D4AF37);
+  color:#1a0533; font-size:12px; font-weight:700;
+  padding:6px 20px; border-radius:20px; letter-spacing:1px;
+}
+.cert-date { font-size:11px; color:rgba(255,255,255,0.45); margin-top:10px; }
 
 .result-item { display:flex; align-items:flex-start; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); font-size:13px; }
 .result-item:last-child { border-bottom:none; }
@@ -404,7 +444,7 @@ function showResults(score, answersLog, pass){
       <div class="result-score">${score}<span>${isKo?'점':'pts'}</span></div>
       <div class="result-badge">${pass?'✓ PASS':'✗ FAIL'}</div>
       <div class="result-msg">${pass
-        ?(isKo?'축하합니다! 필수강의를 합격하셨습니다.':'Congratulations! You have passed.')
+        ?'🎉 Congratulations! 🎉'
         :attempt<2
           ?(isKo?'80점 미만입니다. 재시험 기회가 1회 있습니다.':'Below 80. You have one retake opportunity.')
           :(isKo?'재시험 기회가 모두 사용되었습니다.':'No more retake attempts.')
@@ -415,13 +455,20 @@ function showResults(score, answersLog, pass){
     const today=new Date().toLocaleDateString(isKo?'ko-KR':'en-US',{year:'numeric',month:'long',day:'numeric'});
     document.getElementById('cert-wrap').innerHTML=`
       <div class="cert">
-        <div class="cert-cross">✞</div>
-        <div class="cert-eyebrow">${isKo?'합 격 증':'Certificate of Achievement'}</div>
-        <div class="cert-title">${isKo?'합 격 증':'Achievement Certificate'}</div>
-        <div style="font-size:13px;color:var(--text-muted)">${isKo?'이 사람은':'This is to certify that'}</div>
+        <div class="cert-corner cert-corner-tl"></div>
+        <div class="cert-corner cert-corner-tr"></div>
+        <div class="cert-corner cert-corner-bl"></div>
+        <div class="cert-corner cert-corner-br"></div>
+        <div class="cert-stars">✦ ✦ ✦</div>
+        <div class="cert-congratulations">Congratulations</div>
+        <div class="cert-title-ko">${isKo?'합 격 증':'Certificate of Achievement'}</div>
+        <div class="cert-divider"></div>
+        <div class="cert-certify">${isKo?'이 사람은':'This is to certify that'}</div>
         <div class="cert-name">${userName}</div>
-        <div class="cert-course">${isKo?'초대교회 선교훈련 BEYOND 필수강의<br>「복음과 선교」 — 김용의 선교사<br>를 합격하였음을 증명합니다.':'has successfully passed the required lecture<br>"Gospel and Missions" — Missionary Yongui Kim<br>BEYOND Mission Training.'}</div>
-        <div class="cert-score">${score}${isKo?'점 취득':'pts'}</div>
+        <div class="cert-course">${isKo
+          ?'초대교회 선교훈련 BEYOND 필수강의<br>「복음과 선교」 — 김용의 선교사<br>를 합격하였음을 증명합니다.'
+          :'has successfully passed the required lecture<br>"Gospel and Missions" — Missionary Yongui Kim<br>BEYOND Mission Training.'}</div>
+        <div class="cert-badge">${score}${isKo?'점 취득 · PASS':'pts · PASS'}</div>
         <div class="cert-date">${today}</div>
       </div>`;
   } else {
