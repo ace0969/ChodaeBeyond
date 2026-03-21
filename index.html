@@ -8,21 +8,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
 <script>
-  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwD1qtvnQsBBceSSi_pGstebi-hddi5_vhPfDgQrzj5-uifnMe7yGTGBcrsryj8_rXt/exec";
-  window.saveResult = async function(data) {
-    try {
-      await fetch(APPS_SCRIPT_URL, { method:"POST", mode:"no-cors", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
-    } catch(e) { console.error("저장 실패:", e); }
-  };
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwD1qtvnQsBBceSSi_pGstebi-hddi5_vhPfDgQrzj5-uifnMe7yGTGBcrsryj8_rXt/exec";
+    window.saveResult = async function(data) {
+        try {
+            await fetch(APPS_SCRIPT_URL, { method:"POST", mode:"no-cors", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
+        } catch(e) { console.error("저장 실패:", e); }
+    };
 </script>
 
 <style>
 :root {
-  --primary: #4B2E8A; --primary-light: #7B5CC4; --primary-pale: #F0EBF8;
-  --accent: #D4AF37; --bg: #FAFAF8; --surface: #FFFFFF;
-  --text: #1A1A2E; --text-muted: #6B6B80; --border: rgba(75,46,138,0.12);
-  --success: #2D7A4F; --success-bg: #EAF7F0; --danger: #9B2335; --danger-bg: #FCEEF0;
-  --radius: 14px; --shadow: 0 2px 20px rgba(75,46,138,0.08);
+    --primary: #4B2E8A; --primary-light: #7B5CC4; --primary-pale: #F0EBF8;
+    --accent: #D4AF37; --bg: #FAFAF8; --surface: #FFFFFF;
+    --text: #1A1A2E; --text-muted: #6B6B80; --border: rgba(75,46,138,0.12);
+    --success: #2D7A4F; --success-bg: #EAF7F0; --danger: #9B2335; --danger-bg: #FCEEF0;
+    --radius: 14px; --shadow: 0 2px 20px rgba(75,46,138,0.08);
 }
 * { box-sizing:border-box; margin:0; padding:0; }
 body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding:0 0 80px; }
@@ -36,6 +36,8 @@ body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--
 .page { display:none; animation:fadeIn 0.4s ease; }
 .page.active { display:block; }
 @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* Hero */
 .hero { background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%); border-radius:var(--radius); padding:32px 24px; color:white; margin-bottom:20px; position:relative; overflow:hidden; }
 .hero::before { content:''; position:absolute; top:-30px; right:-30px; width:120px; height:120px; border-radius:50%; background:rgba(212,175,55,0.15); }
 .hero-eyebrow { font-size:11px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
@@ -43,21 +45,41 @@ body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--
 .hero-sub { font-size:13px; opacity:0.8; line-height:1.6; }
 .info-pills { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
 .pill { background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:4px 12px; font-size:12px; color:white; }
+
+/* Card */
 .card { background:var(--surface); border-radius:var(--radius); border:1px solid var(--border); padding:20px; margin-bottom:16px; box-shadow:var(--shadow); }
 .card-label { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--primary-light); margin-bottom:12px; }
+
+/* Forms */
 .form-group { margin-bottom:16px; }
 .form-group:last-child { margin-bottom:0; }
 .form-label { font-size:13px; font-weight:500; color:var(--text); margin-bottom:6px; display:block; }
 .req { color:var(--danger); margin-left:2px; }
 .form-input { width:100%; padding:10px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:14px; font-family:'Noto Sans KR',sans-serif; color:var(--text); background:var(--bg); transition:border-color 0.2s; outline:none; }
 .form-input:focus { border-color:var(--primary-light); background:white; }
+
+/* Buttons */
 .btn { width:100%; padding:14px; border-radius:12px; border:none; font-size:15px; font-weight:700; font-family:'Noto Sans KR',sans-serif; cursor:pointer; transition:all 0.2s; letter-spacing:0.3px; }
 .btn-primary { background:var(--primary); color:white; }
 .btn-primary:hover { background:var(--primary-light); transform:translateY(-1px); }
 .btn-outline { background:white; color:var(--primary); border:1.5px solid var(--primary); margin-top:10px; }
 .btn-outline:hover { background:var(--primary-pale); }
 
-/* Language selection */
+/* Week Selection */
+.week-grid { display:flex; flex-direction:column; gap:14px; margin-bottom:20px; }
+.week-card { background:var(--surface); border:2px solid var(--border); border-radius:var(--radius); padding:20px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:16px; }
+.week-card:hover { border-color:var(--primary-light); background:var(--primary-pale); }
+.week-card.selected { border-color:var(--primary); background:var(--primary-pale); }
+.week-card.disabled { opacity:0.5; cursor:not-allowed; pointer-events:none; }
+.week-num { width:48px; height:48px; border-radius:50%; background:var(--primary); color:white; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700; flex-shrink:0; }
+.week-info { flex:1; }
+.week-title { font-size:15px; font-weight:700; color:var(--text); margin-bottom:4px; }
+.week-desc { font-size:12px; color:var(--text-muted); line-height:1.5; }
+.week-badge { font-size:11px; padding:3px 10px; border-radius:20px; font-weight:700; flex-shrink:0; }
+.week-badge.open { background:var(--success-bg); color:var(--success); }
+.week-badge.coming { background:#FFF8E1; color:#7A5800; }
+
+/* Language Selection */
 .lang-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px; }
 .lang-card { background:var(--surface); border:2px solid var(--border); border-radius:var(--radius); padding:24px 16px; text-align:center; cursor:pointer; transition:all 0.2s; }
 .lang-card:hover { border-color:var(--primary-light); background:var(--primary-pale); }
@@ -66,6 +88,7 @@ body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--
 .lang-title { font-size:15px; font-weight:700; color:var(--text); }
 .lang-sub { font-size:12px; color:var(--text-muted); margin-top:4px; }
 
+/* Quiz */
 .progress-section { margin-bottom:20px; }
 .progress-info { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
 .progress-label { font-size:13px; color:var(--text-muted); }
@@ -104,7 +127,7 @@ body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--
 .score-cell-val { font-size:20px; font-weight:700; color:var(--primary); }
 .score-cell-lbl { font-size:11px; color:var(--text-muted); margin-top:2px; }
 
-/* 합격증 - 클래식 스타일 */
+/* 합격증 */
 .cert-outer { background:#f5f0e8; border-radius:4px; margin-bottom:16px; padding:12px; }
 .cert { position:relative; background:#fffef9; padding:36px 40px 28px; text-align:center; border:1px solid #c8a84b; font-family:'Playfair Display',serif; }
 .cert::before { content:''; position:absolute; top:6px; left:6px; right:6px; bottom:6px; border:2.5px solid #c8a84b; pointer-events:none; }
@@ -114,7 +137,8 @@ body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--
 .cert-corner-ornament.bl { bottom:16px; left:16px; border-width:0 0 2px 2px; }
 .cert-corner-ornament.br { bottom:16px; right:16px; border-width:0 2px 2px 0; }
 .cert-side-left,.cert-side-right { position:absolute; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; align-items:center; gap:5px; }
-.cert-side-left { left:18px; } .cert-side-right { right:18px; }
+.cert-side-left { left:18px; }
+.cert-side-right { right:18px; }
 .vine-dot { width:5px; height:5px; border-radius:50%; background:#c8a84b; opacity:0.6; }
 .vine-line { width:1.5px; height:14px; background:linear-gradient(to bottom,transparent,#c8a84b,transparent); }
 .cert-top-org { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#7a6030; margin-bottom:8px; font-family:'Noto Sans KR',sans-serif; font-weight:500; }
@@ -132,13 +156,13 @@ body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--
 .cert-score-badge { display:inline-block; border:1.5px solid #c8a84b; color:#7a5010; font-size:11px; font-family:'Noto Sans KR',sans-serif; font-weight:700; padding:4px 16px; letter-spacing:1.5px; margin-bottom:14px; background:#fffbf0; }
 .cert-footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:16px; padding-top:12px; border-top:1px solid rgba(200,168,75,0.3); }
 .cert-seal { width:72px; height:72px; flex-shrink:0; }
-.seal-text { font-size:6.5px; font-weight:700; color:#fff8e0; letter-spacing:0.5px; text-align:center; line-height:1.5; font-family:sans-serif; }
 .cert-sig-block { text-align:center; flex:1; }
 .cert-sig-line { width:110px; height:1px; background:#c8a84b; margin:24px auto 4px; }
 .cert-sig-name { font-size:10px; color:#6a5030; font-family:'Noto Sans KR',sans-serif; font-weight:700; }
 .cert-sig-title { font-size:9px; color:#9a8060; font-family:'Noto Sans KR',sans-serif; }
 .cert-date-block { text-align:right; font-size:10px; color:#8a7040; font-family:'Noto Sans KR',sans-serif; line-height:1.8; }
 
+/* Result items */
 .result-item { display:flex; align-items:flex-start; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); font-size:13px; }
 .result-item:last-child { border-bottom:none; }
 .result-icon { width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; margin-top:1px; }
@@ -154,8 +178,6 @@ body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--
 .summary-h { font-size:14px; font-weight:700; color:var(--primary); margin:14px 0 6px; }
 .summary-h:first-child { margin-top:0; }
 .save-status { font-size:12px; text-align:center; color:var(--text-muted); margin-top:12px; padding:8px; border-radius:8px; background:var(--bg); }
-
-/* Summary page */
 .summary-page-title { font-family:'Playfair Display',serif; font-size:20px; color:var(--primary); margin-bottom:4px; }
 .summary-score-bar { display:flex; align-items:center; gap:12px; background:var(--primary-pale); border-radius:10px; padding:12px 16px; margin-bottom:16px; }
 .summary-score-num { font-size:28px; font-weight:700; color:var(--primary); }
@@ -168,455 +190,504 @@ body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--
 <body>
 
 <div class="top-bar">
-  <span class="top-bar-title">선교훈련 BEYOND</span>
-  <div class="step-dots">
-    <div class="step-dot active" id="dot1"></div>
-    <div class="step-dot" id="dot2"></div>
-    <div class="step-dot" id="dot3"></div>
-    <div class="step-dot" id="dot4"></div>
-  </div>
+    <span class="top-bar-title">선교훈련 BEYOND</span>
+    <div class="step-dots">
+        <div class="step-dot active" id="dot0"></div>
+        <div class="step-dot" id="dot1"></div>
+        <div class="step-dot" id="dot2"></div>
+        <div class="step-dot" id="dot3"></div>
+        <div class="step-dot" id="dot4"></div>
+    </div>
+</div>
+
+<!-- PAGE 0: 주차 선택 -->
+<div id="page0" class="page active">
+<div class="container">
+    <div class="hero">
+        <div class="hero-eyebrow">초대교회 선교훈련</div>
+        <h1>BEYOND<br>Mission Training</h1>
+        <p class="hero-sub">3주간의 선교훈련 과정입니다. 주차별 강의를 듣고 퀴즈를 완료해주세요.</p>
+        <div class="info-pills">
+            <span class="pill">3주 과정</span>
+            <span class="pill">주차별 10문제</span>
+            <span class="pill">80점 이상 합격</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-label">주차 선택 / Select Week</div>
+        <div class="week-grid">
+            <div class="week-card" id="wk-week1" onclick="selectWeek('week1')">
+                <div class="week-num">1</div>
+                <div class="week-info">
+                    <div class="week-title">복음과 선교</div>
+                    <div class="week-desc">김용의 선교사 · Gospel & Missions</div>
+                </div>
+                <span class="week-badge open">OPEN</span>
+            </div>
+            <div class="week-card" id="wk-week2" onclick="selectWeek('week2')">
+                <div class="week-num">2</div>
+                <div class="week-info">
+                    <div class="week-title">남은 과업: 미전도 종족 선교</div>
+                    <div class="week-desc">이태훈 교수 · Remaining Task: UPG Missions</div>
+                </div>
+                <span class="week-badge open">OPEN</span>
+            </div>
+            <div class="week-card disabled" id="wk-week3">
+                <div class="week-num" style="background:var(--text-muted);">3</div>
+                <div class="week-info">
+                    <div class="week-title">3주차 (준비중)</div>
+                    <div class="week-desc">Coming Soon</div>
+                </div>
+                <span class="week-badge coming">SOON</span>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="goToRegister()" id="btn-select-week">주차를 선택해주세요</button>
+</div>
 </div>
 
 <!-- PAGE 1: 등록 -->
-<div id="page1" class="page active">
-  <div class="container">
-    <div class="hero">
-      <div class="hero-eyebrow">초대교회 선교훈련 BEYOND</div>
-      <h1>필수강의<br>복음과 선교</h1>
-      <p class="hero-sub">김용의 선교사 · 10문제 퀴즈를 완료하면 수강이 완료됩니다</p>
-      <div class="info-pills">
-        <span class="pill">10문제</span>
-        <span class="pill">100점 만점</span>
-        <span class="pill">80점 이상 합격</span>
-        <span class="pill">재시험 1회</span>
-      </div>
+<div id="page1" class="page">
+<div class="container">
+    <div class="hero" id="hero-register">
+        <!-- 동적으로 채워짐 -->
     </div>
     <div class="card">
-      <div class="card-label">참가자 정보</div>
-      <div class="form-group">
-        <label class="form-label">이메일<span class="req">*</span></label>
-        <input class="form-input" type="email" id="inp-email" placeholder="email@example.com" />
-      </div>
-      <div class="form-group">
-        <label class="form-label">이름 / Name<span class="req">*</span></label>
-        <input class="form-input" type="text" id="inp-name" placeholder="홍길동 / John Kim" />
-      </div>
+        <div class="card-label">참가자 정보</div>
+        <div class="form-group">
+            <label class="form-label">이메일<span class="req">*</span></label>
+            <input class="form-input" type="email" id="inp-email" placeholder="email@example.com" />
+        </div>
+        <div class="form-group">
+            <label class="form-label">이름 / Name<span class="req">*</span></label>
+            <input class="form-input" type="text" id="inp-name" placeholder="홍길동 / John Kim" />
+        </div>
     </div>
     <div class="card">
-      <div class="card-label">언어 선택 / Language</div>
-      <div class="lang-grid">
-        <div class="lang-card selected" id="lang-ko" onclick="selectLang('ko')">
-          <div class="lang-flag">🇰🇷</div>
-          <div class="lang-title">한국어</div>
-          <div class="lang-sub">Korean</div>
+        <div class="card-label">언어 선택 / Language</div>
+        <div class="lang-grid">
+            <div class="lang-card selected" id="lang-ko" onclick="selectLang('ko')">
+                <div class="lang-flag">🇰🇷</div>
+                <div class="lang-title">한국어</div>
+                <div class="lang-sub">Korean</div>
+            </div>
+            <div class="lang-card" id="lang-en" onclick="selectLang('en')">
+                <div class="lang-flag">🇺🇸</div>
+                <div class="lang-title">English</div>
+                <div class="lang-sub">영문</div>
+            </div>
         </div>
-        <div class="lang-card" id="lang-en" onclick="selectLang('en')">
-          <div class="lang-flag">🇺🇸</div>
-          <div class="lang-title">English</div>
-          <div class="lang-sub">영문</div>
-        </div>
-      </div>
     </div>
     <button class="btn btn-primary" onclick="startQuiz()">퀴즈 시작하기 →</button>
-  </div>
+</div>
 </div>
 
 <!-- PAGE 2: 퀴즈 -->
 <div id="page2" class="page">
-  <div class="container">
+<div class="container">
     <div id="attempt-banner"></div>
     <div class="progress-section">
-      <div class="progress-info">
-        <span class="progress-label" id="quiz-section-label">Section — 퀴즈</span>
-        <span class="progress-count" id="progress-txt">0 / 10</span>
-      </div>
-      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+        <div class="progress-info">
+            <span class="progress-label" id="quiz-section-label">Section — 퀴즈</span>
+            <span class="progress-count" id="progress-txt">0 / 10</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
     </div>
     <div id="quiz-wrap"></div>
     <button class="btn btn-primary" onclick="submitQuiz()" style="margin-top:8px;" id="submit-btn">제출하기</button>
-  </div>
+</div>
 </div>
 
 <!-- PAGE 3: 결과 -->
 <div id="page3" class="page">
-  <div class="container">
+<div class="container">
     <div id="result-hero-wrap"></div>
     <div id="cert-wrap"></div>
     <div class="score-breakdown">
-      <div class="score-cell"><div class="score-cell-val" id="sc-correct">0</div><div class="score-cell-lbl" id="sc-correct-lbl">정답</div></div>
-      <div class="score-cell"><div class="score-cell-val" id="sc-wrong">0</div><div class="score-cell-lbl" id="sc-wrong-lbl">오답</div></div>
-      <div class="score-cell"><div class="score-cell-val" id="sc-score">0점</div><div class="score-cell-lbl" id="sc-score-lbl">점수</div></div>
+        <div class="score-cell"><div class="score-cell-val" id="sc-correct">0</div><div class="score-cell-lbl" id="sc-correct-lbl">정답</div></div>
+        <div class="score-cell"><div class="score-cell-val" id="sc-wrong">0</div><div class="score-cell-lbl" id="sc-wrong-lbl">오답</div></div>
+        <div class="score-cell"><div class="score-cell-val" id="sc-score">0점</div><div class="score-cell-lbl" id="sc-score-lbl">점수</div></div>
     </div>
     <div class="card">
-      <div class="card-label" id="detail-label">문항별 채점 결과</div>
-      <div id="detail-results"></div>
+        <div class="card-label" id="detail-label">문항별 채점 결과</div>
+        <div id="detail-results"></div>
     </div>
     <div id="save-status"></div>
     <div id="result-actions"></div>
-  </div>
+</div>
 </div>
 
 <!-- PAGE 4: 요약 -->
 <div id="page4" class="page">
-  <div class="container">
+<div class="container">
     <div class="card" style="margin-bottom:16px;">
-      <div id="summary-score-bar"></div>
-      <p class="summary-page-title" id="summary-title">강의 요약</p>
+        <div id="summary-score-bar"></div>
+        <p class="summary-page-title" id="summary-title">강의 요약</p>
     </div>
-    <div class="card" id="summary-ko" style="display:none;">
-      <div class="card-label">강의 요약 — 복음과 선교</div>
-      <div class="summary-content">
-        <div class="summary-h">1. 대체 불가 (에스라 8:15,17 / 이사야 6:8)</div>
-        하나님의 선하심을 알고, 영령을 듣고, 경험하는 사람만이 선교를 갈 수 있다. "내가 누구를 보내며 누가 나를 위하여 갈꼬" — 대체 불가하며 갈 수 있는 사람: 자신에게 와 닿은 진리를 보고, 하나님의 마음과 음성을 듣고, 그 상황을 담임해 하나님께 예배드리는 사람. 선교는 부르심·체험·말씀을 들어야 가는 것이 아님.
-        <div class="summary-h">2. 역사의 고리 (열왕기하 7:9)</div>
-        구약에서는 레위인, 신약에서는 예수 그리스도의 증인으로 연결. 선교는 신학적·철학적 사명감이 아닌 복음이 실제로 자신에게 나타난 증인들에 의해 이루어짐. 알면서도 전하지 않는 것은 미필적 고의로 집단 살육과 같은 죄.
-        <div class="summary-h">3. 마지막 퍼즐 (사도행전 13:21 / 누가복음 15장)</div>
-        하나님의 역사는 마지막 한 조각 퍼즐이 맞춰질 때 완성됨. 선교는 잃어버린 한 마리 양이 돌아올 때까지 찾으시는 주님의 마음으로 해야 함.
-        <div class="summary-h">4. 하나님 마음에 합한 자 (고린도전서 2:16)</div>
-        존재감이 없고 주목받지 못하더라도, 모든 족속에게 복음을 전하여 제자 삼으라는 주님의 명령에 순종하며 하나님의 마음에 합한 성도를 통해 선교의 역사가 완성됨. "땅끝에서 죽어, 하늘 복판에서 만나자"
-      </div>
+    <!-- Week 1 요약 한국어 -->
+    <div class="card" id="summary-w1-ko" style="display:none;">
+        <div class="card-label">강의 요약 — 복음과 선교</div>
+        <div class="summary-content">
+            <div class="summary-h">1. 대체 불가 (에스라 8:15,17 / 이사야 6:8)</div>
+            하나님의 선하심을 알고, 영령을 듣고, 경험하는 사람만이 선교를 갈 수 있다. "내가 누구를 보내며 누가 나를 위하여 갈꼬" — 대체 불가하며 갈 수 있는 사람: 자신에게 와 닿은 진리를 보고, 하나님의 마음과 음성을 듣고, 그 상황을 담임해 하나님께 예배드리는 사람. 선교는 부르심·체험·말씀을 들어야 가는 것이 아님.
+            <div class="summary-h">2. 역사의 고리 (열왕기하 7:9)</div>
+            구약에서는 레위인, 신약에서는 예수 그리스도의 증인으로 연결. 선교는 신학적·철학적 사명감이 아닌 복음이 실제로 자신에게 나타난 증인들에 의해 이루어짐. 알면서도 전하지 않는 것은 미필적 고의로 집단 살육과 같은 죄.
+            <div class="summary-h">3. 마지막 퍼즐 (사도행전 13:21 / 누가복음 15장)</div>
+            하나님의 역사는 마지막 한 조각 퍼즐이 맞춰질 때 완성됨. 선교는 잃어버린 한 마리 양이 돌아올 때까지 찾으시는 주님의 마음으로 해야 함.
+            <div class="summary-h">4. 하나님 마음에 합한 자 (고린도전서 2:16)</div>
+            존재감이 없고 주목받지 못하더라도, 모든 족속에게 복음을 전하여 제자 삼으라는 주님의 명령에 순종하며 하나님의 마음에 합한 성도를 통해 선교의 역사가 완성됨. "땅끝에서 죽어, 하늘 복판에서 만나자"
+        </div>
     </div>
-    <div class="card" id="summary-en" style="display:none;">
-      <div class="card-label">Lecture Summary — Gospel & Missions</div>
-      <div class="summary-content">
-        <div class="summary-h">1. The Irreplaceable (Ezra 8:15,17 / Isaiah 6:8)</div>
-        Only those who know God's goodness, hear His voice, and experience His heart can go on mission. When God asks "Who will go for us?" — the irreplaceable person is one who sees truth as their own reality, hears God's heart and lament, and substitutes themselves into the desperate situation of the lost. Mission is not about waiting for a specific call or program.
-        <div class="summary-h">2. The Link of History (2 Kings 7:9)</div>
-        In the OT, the Levites; in the NT, witnesses of Jesus Christ — these are the connecting links. Mission is carried out by those for whom the Gospel has become an actual, experienced reality. To know the Good News and not share it is like willful mass slaughter.
-        <div class="summary-h">3. The Last Puzzle Piece (Acts 13:21 / Luke 15)</div>
-        God's redemptive history is completed when the last puzzle piece falls into place. Mission must be done with the Father's heart — refusing to rest until the very last lost sheep is found.
-        <div class="summary-h">4. A Person After God's Own Heart (1 Cor. 2:16)</div>
-        Even if overlooked by the world, the one who obeys the Great Commission and possesses God's own heart is the one through whom God's mission is completed. "Die at the ends of the earth, meet in the middle of heaven."
-      </div>
+    <!-- Week 1 요약 영어 -->
+    <div class="card" id="summary-w1-en" style="display:none;">
+        <div class="card-label">Lecture Summary — Gospel & Missions</div>
+        <div class="summary-content">
+            <div class="summary-h">1. The Irreplaceable (Ezra 8:15,17 / Isaiah 6:8)</div>
+            Only those who know God's goodness, hear His voice, and experience His heart can go on mission. When God asks "Who will go for us?" — the irreplaceable person is one who sees truth as their own reality, hears God's heart and lament, and substitutes themselves into the desperate situation of the lost. Mission is not about waiting for a specific call or program.
+            <div class="summary-h">2. The Link of History (2 Kings 7:9)</div>
+            In the OT, the Levites; in the NT, witnesses of Jesus Christ — these are the connecting links. Mission is carried out by those for whom the Gospel has become an actual, experienced reality. To know the Good News and not share it is like willful mass slaughter.
+            <div class="summary-h">3. The Last Puzzle Piece (Acts 13:21 / Luke 15)</div>
+            God's redemptive history is completed when the last puzzle piece falls into place. Mission must be done with the Father's heart — refusing to rest until the very last lost sheep is found.
+            <div class="summary-h">4. A Person After God's Own Heart (1 Cor. 2:16)</div>
+            Even if overlooked by the world, the one who obeys the Great Commission and possesses God's own heart is the one through whom God's mission is completed. "Die at the ends of the earth, meet in the middle of heaven."
+        </div>
     </div>
-    <button class="btn btn-primary" onclick="goHome()" style="margin-top:8px;" id="home-btn">처음으로 돌아가기 ↩</button>
-  </div>
+    <!-- Week 2 요약 한국어 -->
+    <div class="card" id="summary-w2-ko" style="display:none;">
+        <div class="card-label">강의 요약 — 남은 과업: 미전도 종족 선교</div>
+        <div class="summary-content">
+            <div class="summary-h">1. 미전도 종족 (UPG) 개념의 기원</div>
+            랄프 윈터(Ralph D. Winter)가 1974년 1차 로잔 대회에서 "숨겨진 종족(Hidden People)"을 소개. 세계 인구의 절반이 복음을 접하지 못했으며, 언어·지역 장벽을 넘는 전도(Cross Cultural Evangelism)가 필요하다고 주장. 이전의 국가/지리 중심에서 민족·언어·사회적 집단 중심으로 선교 패러다임이 변화됨.
+            <div class="summary-h">2. 전방 개척 선교 운동 (Frontier Mission Movement)</div>
+            UPG 패러다임에서 파생된 선교 운동으로, 복음이 닿지 못한 지역과 미전도 종족에 집중. 방대한 통계 자료를 사용하여 선교 지역의 우선순위를 정하지만, 복잡한 현실을 단순화시키는 경향이 있어 비판을 받기도 함.
+            <div class="summary-h">3. UPG 패러다임의 약점과 보완점</div>
+            언어와 어휘 선택의 중요성, 경계선(Boundary Lines) 설정의 모호함, 그리고 '타자화(Othering)' 문제 — 미전도 종족을 우리와 다른 이질적 존재로 여기는 태도를 경계해야 함. 겸손함과 세심한 배려가 필요.
+            <div class="summary-h">4. 단기 선교 준비에 적용할 것</div>
+            선교는 행사가 아닌 삶의 방식이며 평생의 헌신. 미전도 종족을 하나님의 형상(IMAGO DEI)을 가진 존재로 존중. 절대적 겸손으로 현지인들을 멘토로 삼고 배우는 자세. 대사명(마태 28:19-20)의 '모든 것'을 지키는 순종이 곧 선교적 삶.
+            <div class="summary-h">5. 핵심 메시지</div>
+            예수님께서 명하신 두 가지 — 하나님과 이웃 사랑(마 22:37-40), 남에게 대접 받고자 하는 대로 대접하라(마 7:12)를 날마다 순종하는 것이 선교. 세상의 방식이 아닌, 낮고 연약한 예수님의 방식으로 선교에 참여할 것.
+        </div>
+    </div>
+    <!-- Week 2 요약 영어 -->
+    <div class="card" id="summary-w2-en" style="display:none;">
+        <div class="card-label">Lecture Summary — Remaining Task: UPG Missions</div>
+        <div class="summary-content">
+            <div class="summary-h">1. Origin of the UPG Concept</div>
+            Ralph D. Winter introduced "Hidden People" at the 1974 Lausanne Congress, arguing that half the world had no access to the Gospel and cross-cultural evangelism was needed. This shifted the mission paradigm from nation/geography-based to ethno-linguistic sociological groups.
+            <div class="summary-h">2. Frontier Mission Movement</div>
+            A mission movement derived from the UPG paradigm, focusing on unreached areas and peoples. Uses extensive statistical data to prioritize mission fields, but criticized for oversimplifying complex realities and being culturally North American-centric.
+            <div class="summary-h">3. Weaknesses and Improvements of UPG Paradigm</div>
+            Key issues include: the importance of careful language/vocabulary choices, ambiguous boundary lines between groups, and the danger of "Othering" — treating unreached peoples as alien objects. Humility and sensitivity are essential.
+            <div class="summary-h">4. Applying to Short-Term Mission Preparation</div>
+            Mission is a lifestyle and lifelong commitment, not a task or event. Unreached peoples must be respected as bearers of God's image (IMAGO DEI). Approach with absolute humility, viewing locals as mentors. Obedience to "everything" in the Great Commission (Matthew 28:19-20) defines missional living.
+            <div class="summary-h">5. Core Message</div>
+            Daily obedience to Jesus' two commands — love God and neighbor (Matt. 22:37-40), treat others as you wish to be treated (Matt. 7:12) — is mission. Participate in mission not through worldly methods, but in the humble, servant way of Jesus.
+        </div>
+    </div>
+    <button class="btn btn-primary" onclick="goWeekSelect()" style="margin-top:8px;" id="home-btn">주차 선택으로 돌아가기 ↩</button>
+</div>
 </div>
 
 <script src="questions.js"></script>
 <script>
-let userName='', userEmail='', selectedLang='ko';
+let userName='', userEmail='', selectedLang='ko', currentWeek='';
 let userAnswers=Array(10).fill(null);
 let attempt=1, lastScore=0, lastPass=false;
 
+function selectWeek(wk) {
+    currentWeek = wk;
+    document.querySelectorAll('.week-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('wk-'+wk).classList.add('selected');
+    const isKo = selectedLang==='ko';
+    const btn = document.getElementById('btn-select-week');
+    const data = WEEK_DATA[wk];
+    btn.textContent = (isKo ? data.ko.title : data.en.title) + ' →';
+    btn.style.opacity = '1';
+}
+
+function goToRegister() {
+    if(!currentWeek) { alert('주차를 선택해주세요. / Please select a week.'); return; }
+    const isKo = selectedLang==='ko';
+    const data = WEEK_DATA[currentWeek][isKo?'ko':'en'];
+    const weekNum = currentWeek.replace('week','');
+    document.getElementById('hero-register').innerHTML = `
+        <div class="hero-eyebrow">초대교회 선교훈련 BEYOND · ${weekNum}주차</div>
+        <h1>${isKo?'필수강의':'Required Lecture'}<br>${data.title}</h1>
+        <p class="hero-sub">${data.lecturer} · 10${isKo?'문제 퀴즈를 완료하면 수강이 완료됩니다':'questions quiz to complete the course'}</p>
+        <div class="info-pills">
+            <span class="pill">10${isKo?'문제':'Q'}</span>
+            <span class="pill">100${isKo?'점 만점':'pts max'}</span>
+            <span class="pill">80${isKo?'점 이상 합격':'+ to pass'}</span>
+            <span class="pill">${isKo?'재시험 1회':'1 retake'}</span>
+        </div>`;
+    attempt = 1;
+    showPage('page1', 1);
+}
+
 function selectLang(lang) {
-  selectedLang = lang;
-  document.getElementById('lang-ko').classList.toggle('selected', lang==='ko');
-  document.getElementById('lang-en').classList.toggle('selected', lang==='en');
+    selectedLang = lang;
+    document.getElementById('lang-ko').classList.toggle('selected', lang==='ko');
+    document.getElementById('lang-en').classList.toggle('selected', lang==='en');
 }
 
 function setDots(active) {
-  for(let i=1;i<=4;i++){
-    const d=document.getElementById('dot'+i);
-    d.className='step-dot'+(i<active?' done':i===active?' active':'');
-  }
+    for(let i=0;i<=4;i++){
+        const d=document.getElementById('dot'+i);
+        if(d) d.className='step-dot'+(i<active?' done':i===active?' active':'');
+    }
 }
 
 function showPage(id, dotNum) {
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  setDots(dotNum);
-  window.scrollTo(0,0);
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    setDots(dotNum);
+    window.scrollTo(0,0);
 }
 
 function startQuiz() {
-  const email=document.getElementById('inp-email').value.trim();
-  const name=document.getElementById('inp-name').value.trim();
-  if(!email||!name){alert(selectedLang==='ko'?'이메일과 이름을 입력해주세요.':'Please enter your email and name.');return;}
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert(selectedLang==='ko'?'올바른 이메일 형식을 입력해주세요.':'Please enter a valid email.');return;}
-  userName=name; userEmail=email;
-  userAnswers=Array(10).fill(null);
-  const banner=document.getElementById('attempt-banner');
-  banner.innerHTML=attempt>1?`<div class="attempt-banner">${selectedLang==='ko'?'⚠ 재시험입니다. 마지막 기회입니다.':'⚠ This is your retake. Last attempt.'}</div>`:'';
-  document.getElementById('quiz-section-label').textContent=selectedLang==='ko'?'Section — 퀴즈':'Section — Quiz';
-  document.getElementById('submit-btn').textContent=selectedLang==='ko'?'제출하기':'Submit';
-  renderQuiz();
-  showPage('page2',2);
+    const email=document.getElementById('inp-email').value.trim();
+    const name=document.getElementById('inp-name').value.trim();
+    if(!email||!name){alert(selectedLang==='ko'?'이메일과 이름을 입력해주세요.':'Please enter your email and name.');return;}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert(selectedLang==='ko'?'올바른 이메일 형식을 입력해주세요.':'Please enter a valid email.');return;}
+    userName=name; userEmail=email;
+    userAnswers=Array(10).fill(null);
+    const banner=document.getElementById('attempt-banner');
+    banner.innerHTML=attempt>1?`<div class="attempt-banner">${selectedLang==='ko'?'⚠ 재시험입니다. 마지막 기회입니다.':'⚠ This is your retake. Last attempt.'}</div>`:'';
+    document.getElementById('quiz-section-label').textContent=selectedLang==='ko'?'Section — 퀴즈':'Section — Quiz';
+    document.getElementById('submit-btn').textContent=selectedLang==='ko'?'제출하기':'Submit';
+    renderQuiz();
+    showPage('page2',2);
 }
 
 function getQuestions() {
-  return selectedLang==='ko'?QUESTIONS_KO:QUESTIONS_EN;
+    const data = WEEK_DATA[currentWeek];
+    return selectedLang==='ko' ? data.ko.questions : data.en.questions;
 }
 
 function renderQuiz() {
-  const wrap=document.getElementById('quiz-wrap');
-  wrap.innerHTML='';
-  const qs=getQuestions();
-  qs.forEach((q,i)=>{
-    const div=document.createElement('div');
-    div.className='q-card'; div.id='qc-'+i;
-    let body='';
-    if(q.type==='essay'){
-      body=`<textarea class="essay-area" id="essay-${i}" placeholder="${selectedLang==='ko'?'답변을 입력해주세요...':'Write your answer...'}" oninput="handleEssay(${i},this.value)">${userAnswers[i]||''}</textarea><p class="keyword-hint">${selectedLang==='ko'?'힌트: 핵심 키워드를 포함하여 서술해주세요':'Hint: Include key keywords in your answer'}</p>`;
-    } else {
-      body=`<div class="options">`+q.options.map((opt,j)=>`<button class="option-btn ${userAnswers[i]===j?'selected':''}" id="opt-${i}-${j}" onclick="selectOpt(${i},${j})"><span class="option-circle"></span>${opt}</button>`).join('')+`</div>`;
-    }
-    div.innerHTML=`<div class="q-header"><div class="q-num-badge">${i+1}</div><div class="q-text">${q.text}</div><div class="q-pts">${q.points}${selectedLang==='ko'?'점':'pts'}</div></div>${body}`;
-    wrap.appendChild(div);
-  });
-  updateProgress();
+    const wrap=document.getElementById('quiz-wrap');
+    wrap.innerHTML='';
+    const qs=getQuestions();
+    qs.forEach((q,i)=>{
+        const div=document.createElement('div');
+        div.className='q-card'; div.id='qc-'+i;
+        let body='';
+        if(q.type==='essay'){
+            body=`<textarea class="essay-area" id="essay-${i}" placeholder="${selectedLang==='ko'?'답변을 입력해주세요...':'Write your answer...'}" oninput="handleEssay(${i},this.value)">${userAnswers[i]||''}</textarea><p class="keyword-hint">${selectedLang==='ko'?'힌트: 핵심 키워드를 포함하여 서술해주세요':'Hint: Include key keywords in your answer'}</p>`;
+        } else {
+            body=`<div class="options">`+q.options.map((opt,j)=>`<button class="option-btn ${userAnswers[i]===j?'selected':''}" id="opt-${i}-${j}" onclick="selectOpt(${i},${j})"><span class="option-circle"></span>${opt}</button>`).join('')+`</div>`;
+        }
+        div.innerHTML=`<div class="q-header"><div class="q-num-badge">${i+1}</div><div class="q-text">${q.text}</div><div class="q-pts">${q.points}${selectedLang==='ko'?'점':'pts'}</div></div>${body}`;
+        wrap.appendChild(div);
+    });
+    updateProgress();
 }
 
 function selectOpt(qi,oi) {
-  const qs=getQuestions();
-  qs[qi].options.forEach((_,j)=>{const el=document.getElementById(`opt-${qi}-${j}`);if(el)el.className='option-btn';});
-  const sel=document.getElementById(`opt-${qi}-${oi}`);
-  if(sel)sel.className='option-btn selected';
-  userAnswers[qi]=oi;
-  document.getElementById('qc-'+qi).classList.add('answered');
-  updateProgress();
+    const qs=getQuestions();
+    qs[qi].options.forEach((_,j)=>{const el=document.getElementById(`opt-${qi}-${j}`);if(el)el.className='option-btn';});
+    const sel=document.getElementById(`opt-${qi}-${oi}`);
+    if(sel)sel.className='option-btn selected';
+    userAnswers[qi]=oi;
+    document.getElementById('qc-'+qi).classList.add('answered');
+    updateProgress();
 }
 
 function handleEssay(qi,val){
-  userAnswers[qi]=val;
-  document.getElementById('qc-'+qi).classList.toggle('answered',val.trim().length>0);
-  updateProgress();
+    userAnswers[qi]=val;
+    document.getElementById('qc-'+qi).classList.toggle('answered',val.trim().length>0);
+    updateProgress();
 }
 
 function updateProgress(){
-  const cnt=userAnswers.filter(a=>a!==null&&a!=='').length;
-  document.getElementById('progress-txt').textContent=cnt+' / 10';
-  document.getElementById('progress-fill').style.width=(cnt/10*100)+'%';
+    const cnt=userAnswers.filter(a=>a!==null&&a!=='').length;
+    document.getElementById('progress-txt').textContent=cnt+' / 10';
+    document.getElementById('progress-fill').style.width=(cnt/10*100)+'%';
 }
 
 function submitQuiz(){
-  const qs=getQuestions();
-  const unanswered=userAnswers.filter(a=>a===null||a==='').length;
-  const msg=selectedLang==='ko'?`${unanswered}문제가 미답변입니다. 그래도 제출할까요?`:`${unanswered} questions unanswered. Submit anyway?`;
-  if(unanswered>0&&!confirm(msg))return;
+    const qs=getQuestions();
+    const unanswered=userAnswers.filter(a=>a===null||a==='').length;
+    const msg=selectedLang==='ko'?`${unanswered}문제가 미답변입니다. 그래도 제출할까요?`:`${unanswered} questions unanswered. Submit anyway?`;
+    if(unanswered>0&&!confirm(msg))return;
 
-  let score=0;
-  const answersLog=[];
-  qs.forEach((q,i)=>{
-    let correct=false, correctLabel='';
-    if(q.type==='essay'){
-      const ans=(userAnswers[i]||'').toLowerCase();
-      correct=q.keywords.some(k=>ans.includes(k.toLowerCase()));
-      correctLabel=selectedLang==='ko'?'다윗':'David';
-    } else {
-      correct=userAnswers[i]===q.answer;
-      correctLabel=q.options[q.answer];
-    }
-    if(correct)score+=q.points;
-    answersLog.push({
-      q_num:i+1,
-      question:q.text.substring(0,60),
-      user_answer:q.type==='essay'?(userAnswers[i]||''):(userAnswers[i]!==null?q.options[userAnswers[i]]:(selectedLang==='ko'?'미응답':'No answer')),
-      correct_answer:correctLabel,
-      is_correct:correct,
-      points:correct?q.points:0
+    let score=0;
+    const answersLog=[];
+    qs.forEach((q,i)=>{
+        let correct=false, correctLabel='';
+        if(q.type==='essay'){
+            const ans=(userAnswers[i]||'').toLowerCase();
+            correct=q.keywords.some(k=>ans.includes(k.toLowerCase()));
+            correctLabel=q.keywords.join(' / ');
+        } else {
+            correct=userAnswers[i]===q.answer;
+            correctLabel=q.options[q.answer];
+        }
+        if(correct)score+=q.points;
+        answersLog.push({
+            q_num:i+1, question:q.text.substring(0,60),
+            user_answer:q.type==='essay'?(userAnswers[i]||''):(userAnswers[i]!==null?q.options[userAnswers[i]]:(selectedLang==='ko'?'미응답':'No answer')),
+            correct_answer:correctLabel, is_correct:correct, points:correct?q.points:0
+        });
     });
-  });
 
-  lastScore=score;
-  lastPass=score>=80;
+    lastScore=score; lastPass=score>=80;
 
-  if(typeof window.saveResult==='function'){
-    window.saveResult({name:userName,email:userEmail,score,pass_fail:lastPass?'PASS':'FAIL',attempt,lang:selectedLang,answers:answersLog})
-    .then(()=>{document.getElementById('save-status').innerHTML=`<div class="save-status">${selectedLang==='ko'?'✓ 결과가 저장되었습니다':'✓ Result saved'}</div>`;})
-    .catch(()=>{});
-  }
-
-  showResults(score, answersLog, lastPass);
+    if(typeof window.saveResult==='function'){
+        window.saveResult({name:userName,email:userEmail,score,pass_fail:lastPass?'PASS':'FAIL',attempt,lang:selectedLang,week:currentWeek,answers:answersLog})
+        .then(()=>{document.getElementById('save-status').innerHTML=`<div class="save-status">${selectedLang==='ko'?'✓ 결과가 저장되었습니다':'✓ Result saved'}</div>`;})
+        .catch(()=>{});
+    }
+    showResults(score, answersLog, lastPass);
 }
 
 function showResults(score, answersLog, pass){
-  const isKo=selectedLang==='ko';
-  document.getElementById('result-hero-wrap').innerHTML=`
+    const isKo=selectedLang==='ko';
+    const data = WEEK_DATA[currentWeek][isKo?'ko':'en'];
+    const weekNum = currentWeek.replace('week','');
+
+    document.getElementById('result-hero-wrap').innerHTML=`
     <div class="result-hero ${pass?'pass-bg':'fail-bg'}">
-      <div class="result-verdict">${userName}${isKo?'님의 결과':"'s Result"}</div>
-      <div class="result-score">${score}<span>${isKo?'점':'pts'}</span></div>
-      <div class="result-badge">${pass?'✓ PASS':'✗ FAIL'}</div>
-      <div class="result-msg">${pass
-        ?'🎉 Congratulations! 🎉'
-        :attempt<2
-          ?(isKo?'80점 미만입니다. 재시험 기회가 1회 있습니다.':'Below 80. You have one retake opportunity.')
-          :(isKo?'재시험 기회가 모두 사용되었습니다.':'No more retake attempts.')
-      }</div>
+        <div class="result-verdict">${userName}${isKo?'님의 결과':"'s Result"} · ${weekNum}${isKo?'주차':'Week'}</div>
+        <div class="result-score">${score}<span>${isKo?'점':'pts'}</span></div>
+        <div class="result-badge">${pass?'✓ PASS':'✗ FAIL'}</div>
+        <div class="result-msg">${pass
+            ?'🎉 Congratulations! 🎉'
+            :attempt<2
+                ?(isKo?'80점 미만입니다. 재시험 기회가 1회 있습니다.':'Below 80. You have one retake opportunity.')
+                :(isKo?'재시험 기회가 모두 사용되었습니다.':'No more retake attempts.')
+        }</div>
     </div>`;
 
-  if(pass){
-    const today=new Date().toLocaleDateString(isKo?'ko-KR':'en-US',{year:'numeric',month:'long',day:'numeric'});
-    document.getElementById('cert-wrap').innerHTML=`
-      <div class="cert-outer">
+    if(pass){
+        const today=new Date().toLocaleDateString(isKo?'ko-KR':'en-US',{year:'numeric',month:'long',day:'numeric'});
+        document.getElementById('cert-wrap').innerHTML=`
+        <div class="cert-outer">
         <div class="cert">
-          <div class="cert-corner-ornament tl"></div>
-          <div class="cert-corner-ornament tr"></div>
-          <div class="cert-corner-ornament bl"></div>
-          <div class="cert-corner-ornament br"></div>
-          <div class="cert-side-left">
-            <div class="vine-dot"></div><div class="vine-line"></div>
-            <div class="vine-dot"></div><div class="vine-line"></div>
-            <div class="vine-dot"></div><div class="vine-line"></div>
-            <div class="vine-dot"></div>
-          </div>
-          <div class="cert-side-right">
-            <div class="vine-dot"></div><div class="vine-line"></div>
-            <div class="vine-dot"></div><div class="vine-line"></div>
-            <div class="vine-dot"></div><div class="vine-line"></div>
-            <div class="vine-dot"></div>
-          </div>
-          <div class="cert-top-org">초대교회 선교훈련 BEYOND</div>
-          <div class="cert-divider-row">
-            <div class="cert-divider-line"></div>
-            <div class="cert-divider-diamond"></div>
-            <div class="cert-divider-line r"></div>
-          </div>
-          <div class="cert-main-title">${isKo?'합 격 증':'Certificate of Achievement'}</div>
-          <div class="cert-subtitle">Congratulations</div>
-          <div class="cert-awarded-to">${isKo?'이 사람은':'This is to certify that'}</div>
-          <div class="cert-name">${userName}</div>
-          <div class="cert-body">
+            <div class="cert-corner-ornament tl"></div><div class="cert-corner-ornament tr"></div>
+            <div class="cert-corner-ornament bl"></div><div class="cert-corner-ornament br"></div>
+            <div class="cert-side-left"><div class="vine-dot"></div><div class="vine-line"></div><div class="vine-dot"></div><div class="vine-line"></div><div class="vine-dot"></div><div class="vine-line"></div><div class="vine-dot"></div></div>
+            <div class="cert-side-right"><div class="vine-dot"></div><div class="vine-line"></div><div class="vine-dot"></div><div class="vine-line"></div><div class="vine-dot"></div><div class="vine-line"></div><div class="vine-dot"></div></div>
+            <div class="cert-top-org">초대교회 선교훈련 BEYOND · ${weekNum}주차</div>
+            <div class="cert-divider-row"><div class="cert-divider-line"></div><div class="cert-divider-diamond"></div><div class="cert-divider-line r"></div></div>
+            <div class="cert-main-title">${isKo?'합 격 증':'Certificate of Achievement'}</div>
+            <div class="cert-subtitle">Congratulations</div>
+            <div class="cert-awarded-to">${isKo?'이 사람은':'This is to certify that'}</div>
+            <div class="cert-name">${userName}</div>
+            <div class="cert-body">
             ${isKo
-              ?`위 사람은 초대교회 선교훈련 BEYOND 필수강의<br>
-                <span class="cert-course-name">「 복음과 선교 」— 김용의 선교사</span><br>
-                과정을 성실히 이수하고 소정의 시험에 합격하였기에<br>
-                이 합격증을 수여합니다.`
-              :`has successfully passed the required lecture<br>
-                <span class="cert-course-name">"Gospel and Missions" — Missionary Yongui Kim</span><br>
-                BEYOND Mission Training Program`
+                ?`위 사람은 초대교회 선교훈련 BEYOND ${weekNum}주차 필수강의<br>
+                  <span class="cert-course-name">「 ${data.title} 」— ${data.lecturer}</span><br>
+                  과정을 성실히 이수하고 소정의 시험에 합격하였기에<br>이 합격증을 수여합니다.`
+                :`has successfully passed the ${weekNum}${weekNum==='1'?'st':weekNum==='2'?'nd':'rd'} week required lecture<br>
+                  <span class="cert-course-name">"${data.title}" — ${data.lecturer}</span><br>
+                  BEYOND Mission Training Program`
             }
-          </div>
-          <div class="cert-divider-mid"></div>
-          <div class="cert-score-badge">${isKo?'점수':'Score'} : ${score}${isKo?'점':'pts'} &nbsp;|&nbsp; PASS</div>
-          <div class="cert-footer">
-            <div class="cert-seal">
-              <svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <radialGradient id="sealGrad" cx="40%" cy="35%" r="60%">
-                    <stop offset="0%" stop-color="#f5d060"/>
-                    <stop offset="50%" stop-color="#c8960a"/>
-                    <stop offset="100%" stop-color="#8b6310"/>
-                  </radialGradient>
-                  <path id="topArc" d="M 14,36 A 22,22 0 0,1 58,36"/>
-                  <path id="botArc" d="M 58,38 A 22,22 0 0,1 14,38"/>
-                </defs>
-                <!-- Gear teeth -->
-                <g fill="url(#sealGrad)">
-                  <path d="M36 3 L38.5 8 L33.5 8 Z"/>
-                  <path d="M49 5.5 L50 11 L45.5 9 Z"/>
-                  <path d="M60 13 L58.5 18 L55 15 Z"/>
-                  <path d="M67 24.5 L63 27.5 L62 23 Z"/>
-                  <path d="M69 36 L64 36 L65 31.5 Z"/>
-                  <path d="M67 47.5 L62 46 L65 42 Z"/>
-                  <path d="M60 58 L56 55 L60 52 Z"/>
-                  <path d="M49 65 L46 61 L51 60 Z"/>
-                  <path d="M36 69 L33.5 64 L38.5 64 Z"/>
-                  <path d="M23 65 L22 60 L27 61 Z"/>
-                  <path d="M12 58 L12 52 L16 55 Z"/>
-                  <path d="M5 47.5 L7 42 L10 46 Z"/>
-                  <path d="M3 36 L7 31.5 L8 36 Z"/>
-                  <path d="M5 24.5 L10 23 L9 27.5 Z"/>
-                  <path d="M12 13 L17 15 L13.5 18 Z"/>
-                  <path d="M23 5.5 L26.5 9 L22 11 Z"/>
-                </g>
-                <!-- Outer ring -->
-                <circle cx="36" cy="36" r="29" fill="url(#sealGrad)" stroke="#f5d060" stroke-width="0.5"/>
-                <!-- Inner ring -->
-                <circle cx="36" cy="36" r="24" fill="none" stroke="#fff8e0" stroke-width="0.8" opacity="0.6"/>
-                <!-- Center fill -->
-                <circle cx="36" cy="36" r="22" fill="url(#sealGrad)"/>
-                <!-- Circular text top -->
-                <text font-size="4.8" font-family="sans-serif" font-weight="700" fill="#fff8e0" letter-spacing="1.2">
-                  <textPath href="#topArc" startOffset="10%">CHODAE · BEYOND · MISSION</textPath>
-                </text>
-                <!-- Circular text bottom -->
-                <text font-size="4.5" font-family="sans-serif" font-weight="700" fill="#fff8e0" letter-spacing="1">
-                  <textPath href="#botArc" startOffset="12%">합격 인증 · CERTIFIED</textPath>
-                </text>
-                <!-- Center cross -->
-                <text x="36" y="33.5" text-anchor="middle" font-size="9" fill="#fff8e0" font-family="serif">✞</text>
-                <!-- Center text -->
-                <text x="36" y="41.5" text-anchor="middle" font-size="4" fill="#fff8e0" font-family="sans-serif" font-weight="700" letter-spacing="0.3">PASS</text>
-              </svg>
             </div>
-            <div class="cert-sig-block">
-              <div class="cert-sig-line"></div>
-              <div class="cert-sig-name">뉴저지 초대교회 선교전략부</div>
-              <div class="cert-sig-title">NJ Chodae Church Mission Strategy</div>
+            <div class="cert-divider-mid"></div>
+            <div class="cert-score-badge">${isKo?'점수':'Score'} : ${score}${isKo?'점':'pts'} &nbsp;|&nbsp; PASS</div>
+            <div class="cert-footer">
+                <div class="cert-seal">
+                    <svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+                    <defs><radialGradient id="sealGrad" cx="40%" cy="35%" r="60%"><stop offset="0%" stop-color="#f5d060"/><stop offset="50%" stop-color="#c8960a"/><stop offset="100%" stop-color="#8b6310"/></radialGradient><path id="topArc" d="M 14,36 A 22,22 0 0,1 58,36"/><path id="botArc" d="M 58,38 A 22,22 0 0,1 14,38"/></defs>
+                    <g fill="url(#sealGrad)"><path d="M36 3 L38.5 8 L33.5 8 Z"/><path d="M49 5.5 L50 11 L45.5 9 Z"/><path d="M60 13 L58.5 18 L55 15 Z"/><path d="M67 24.5 L63 27.5 L62 23 Z"/><path d="M69 36 L64 36 L65 31.5 Z"/><path d="M67 47.5 L62 46 L65 42 Z"/><path d="M60 58 L56 55 L60 52 Z"/><path d="M49 65 L46 61 L51 60 Z"/><path d="M36 69 L33.5 64 L38.5 64 Z"/><path d="M23 65 L22 60 L27 61 Z"/><path d="M12 58 L12 52 L16 55 Z"/><path d="M5 47.5 L7 42 L10 46 Z"/><path d="M3 36 L7 31.5 L8 36 Z"/><path d="M5 24.5 L10 23 L9 27.5 Z"/><path d="M12 13 L17 15 L13.5 18 Z"/><path d="M23 5.5 L26.5 9 L22 11 Z"/></g>
+                    <circle cx="36" cy="36" r="29" fill="url(#sealGrad)" stroke="#f5d060" stroke-width="0.5"/>
+                    <circle cx="36" cy="36" r="24" fill="none" stroke="#fff8e0" stroke-width="0.8" opacity="0.6"/>
+                    <circle cx="36" cy="36" r="22" fill="url(#sealGrad)"/>
+                    <text font-size="4.8" font-family="sans-serif" font-weight="700" fill="#fff8e0" letter-spacing="1.2"><textPath href="#topArc" startOffset="10%">CHODAE · BEYOND · MISSION</textPath></text>
+                    <text font-size="4.5" font-family="sans-serif" font-weight="700" fill="#fff8e0" letter-spacing="1"><textPath href="#botArc" startOffset="12%">합격 인증 · CERTIFIED</textPath></text>
+                    <text x="36" y="33.5" text-anchor="middle" font-size="9" fill="#fff8e0" font-family="serif">✞</text>
+                    <text x="36" y="41.5" text-anchor="middle" font-size="4" fill="#fff8e0" font-family="sans-serif" font-weight="700" letter-spacing="0.3">PASS</text>
+                    </svg>
+                </div>
+                <div class="cert-sig-block"><div class="cert-sig-line"></div><div class="cert-sig-name">뉴저지 초대교회 선교전략부</div><div class="cert-sig-title">NJ Chodae Church Mission Strategy</div></div>
+                <div class="cert-date-block">${today}<br>뉴저지 초대교회<br>선교훈련 BEYOND</div>
             </div>
-            <div class="cert-date-block">${today}<br>뉴저지 초대교회<br>선교훈련 BEYOND</div>
-          </div>
         </div>
-      </div>`;
-  } else {
-    document.getElementById('cert-wrap').innerHTML='';
-  }
+        </div>`;
+    } else {
+        document.getElementById('cert-wrap').innerHTML='';
+    }
 
-  const correct=answersLog.filter(a=>a.is_correct).length;
-  document.getElementById('sc-correct').textContent=correct;
-  document.getElementById('sc-wrong').textContent=10-correct;
-  document.getElementById('sc-score').textContent=score+(isKo?'점':'pts');
-  document.getElementById('sc-correct-lbl').textContent=isKo?'정답':'Correct';
-  document.getElementById('sc-wrong-lbl').textContent=isKo?'오답':'Wrong';
-  document.getElementById('sc-score-lbl').textContent=isKo?'점수':'Score';
-  document.getElementById('detail-label').textContent=isKo?'문항별 채점 결과':'Question Results';
+    const correct=answersLog.filter(a=>a.is_correct).length;
+    document.getElementById('sc-correct').textContent=correct;
+    document.getElementById('sc-wrong').textContent=10-correct;
+    document.getElementById('sc-score').textContent=score+(isKo?'점':'pts');
+    document.getElementById('sc-correct-lbl').textContent=isKo?'정답':'Correct';
+    document.getElementById('sc-wrong-lbl').textContent=isKo?'오답':'Wrong';
+    document.getElementById('sc-score-lbl').textContent=isKo?'점수':'Score';
+    document.getElementById('detail-label').textContent=isKo?'문항별 채점 결과':'Question Results';
 
-  document.getElementById('detail-results').innerHTML=answersLog.map(a=>`
+    document.getElementById('detail-results').innerHTML=answersLog.map(a=>`
     <div class="result-item">
-      <div class="result-icon ${a.is_correct?'icon-correct':'icon-wrong'}">${a.is_correct?'○':'✕'}</div>
-      <div class="result-item-text">
-        <div class="result-item-q">Q${a.q_num}. ${a.question}${a.question.length>=60?'...':''}</div>
-        <div class="result-item-ans">${isKo?'내 답':'My answer'}: ${a.user_answer}</div>
-        ${!a.is_correct?`<div class="result-item-correct">${isKo?'정답':'Correct'}: ${a.correct_answer}</div>`:''}
-      </div>
-      <div style="font-size:12px;font-weight:700;color:${a.is_correct?'var(--success)':'var(--danger)'}">
-        ${a.is_correct?'+'+a.points:'0'}${isKo?'점':'pts'}
-      </div>
+        <div class="result-icon ${a.is_correct?'icon-correct':'icon-wrong'}">${a.is_correct?'○':'✕'}</div>
+        <div class="result-item-text">
+            <div class="result-item-q">Q${a.q_num}. ${a.question}${a.question.length>=60?'...':''}</div>
+            <div class="result-item-ans">${isKo?'내 답':'My answer'}: ${a.user_answer}</div>
+            ${!a.is_correct?`<div class="result-item-correct">${isKo?'정답':'Correct'}: ${a.correct_answer}</div>`:''}
+        </div>
+        <div style="font-size:12px;font-weight:700;color:${a.is_correct?'var(--success)':'var(--danger)'}">${a.is_correct?'+'+a.points:'0'}${isKo?'점':'pts'}</div>
     </div>`).join('');
 
-  // 결과 후 버튼 구성
-  let actionsHtml='';
-  if(!pass && attempt<2){
-    // FAIL + 재시험 가능: 재시험 버튼 + 요약보기 버튼
-    actionsHtml=`
-      <button class="btn btn-primary" onclick="doRetake()" style="margin-top:8px;">${isKo?'재시험 응시하기 →':'Retake Quiz →'}</button>
-      <button class="btn btn-outline" onclick="goSummary()">${isKo?'요약본 보기':'View Summary'}</button>`;
-  } else {
-    // PASS 또는 재시험 후: 요약보기 버튼 + 홈 버튼
-    actionsHtml=`
-      <button class="btn btn-primary" onclick="goSummary()" style="margin-top:8px;">${isKo?'강의 요약 보기 →':'View Lecture Summary →'}</button>
-      <button class="btn btn-outline" onclick="goHome()">${isKo?'처음으로 돌아가기 ↩':'Go to Home ↩'}</button>`;
-  }
-  document.getElementById('result-actions').innerHTML=actionsHtml;
-
-  showPage('page3',3);
+    let actionsHtml='';
+    if(!pass && attempt<2){
+        actionsHtml=`
+        <button class="btn btn-primary" onclick="doRetake()" style="margin-top:8px;">${isKo?'재시험 응시하기 →':'Retake Quiz →'}</button>
+        <button class="btn btn-outline" onclick="goSummary()">${isKo?'요약본 보기':'View Summary'}</button>`;
+    } else {
+        actionsHtml=`
+        <button class="btn btn-primary" onclick="goSummary()" style="margin-top:8px;">${isKo?'강의 요약 보기 →':'View Lecture Summary →'}</button>
+        <button class="btn btn-outline" onclick="goWeekSelect()">${isKo?'주차 선택으로 돌아가기 ↩':'Back to Week Selection ↩'}</button>`;
+    }
+    document.getElementById('result-actions').innerHTML=actionsHtml;
+    showPage('page3',3);
 }
 
 function doRetake(){
-  attempt=2;
-  userAnswers=Array(10).fill(null);
-  const banner=document.getElementById('attempt-banner');
-  const isKo=selectedLang==='ko';
-  banner.innerHTML=`<div class="attempt-banner">⚠ ${isKo?'재시험입니다. 마지막 기회입니다. (1회/1회 사용)':'Retake. This is your last attempt.'}</div>`;
-  renderQuiz();
-  showPage('page2',2);
+    attempt=2;
+    userAnswers=Array(10).fill(null);
+    const banner=document.getElementById('attempt-banner');
+    const isKo=selectedLang==='ko';
+    banner.innerHTML=`<div class="attempt-banner">⚠ ${isKo?'재시험입니다. 마지막 기회입니다. (1회/1회 사용)':'Retake. This is your last attempt.'}</div>`;
+    renderQuiz();
+    showPage('page2',2);
 }
 
 function goSummary(){
-  const isKo=selectedLang==='ko';
-  document.getElementById('summary-ko').style.display=isKo?'block':'none';
-  document.getElementById('summary-en').style.display=isKo?'none':'block';
-  document.getElementById('summary-title').textContent=isKo?'강의 요약':'Lecture Summary';
-  document.getElementById('home-btn').textContent=isKo?'처음으로 돌아가기 ↩':'Go to Home ↩';
-  document.getElementById('summary-score-bar').innerHTML=`
+    const isKo=selectedLang==='ko';
+    // 모든 요약 숨김
+    document.querySelectorAll('[id^="summary-w"]').forEach(el => el.style.display='none');
+    // 현재 주차 요약만 표시
+    const summaryId = `summary-${currentWeek.replace('week','w')}-${isKo?'ko':'en'}`;
+    const summaryEl = document.getElementById(summaryId);
+    if(summaryEl) summaryEl.style.display='block';
+
+    const data = WEEK_DATA[currentWeek][isKo?'ko':'en'];
+    document.getElementById('summary-title').textContent=isKo?'강의 요약':'Lecture Summary';
+    document.getElementById('home-btn').textContent=isKo?'주차 선택으로 돌아가기 ↩':'Back to Week Selection ↩';
+    document.getElementById('summary-score-bar').innerHTML=`
     <div class="summary-score-bar">
-      <div class="summary-score-num">${lastScore}${isKo?'점':'pts'}</div>
-      <div class="summary-score-info">
-        ${userName}<span class="pf-badge ${lastPass?'pf-pass':'pf-fail'}">${lastPass?'PASS':'FAIL'}</span>
-      </div>
+        <div class="summary-score-num">${lastScore}${isKo?'점':'pts'}</div>
+        <div class="summary-score-info">${userName}<span class="pf-badge ${lastPass?'pf-pass':'pf-fail'}">${lastPass?'PASS':'FAIL'}</span></div>
     </div>`;
-  showPage('page4',4);
+    showPage('page4',4);
 }
 
-function goHome(){
-  attempt=1; userName=''; userEmail='';
-  userAnswers=Array(10).fill(null); lastScore=0; lastPass=false;
-  document.getElementById('inp-email').value='';
-  document.getElementById('inp-name').value='';
-  selectLang('ko');
-  showPage('page1',1);
+function goWeekSelect(){
+    attempt=1; userName=''; userEmail='';
+    userAnswers=Array(10).fill(null);
+    lastScore=0; lastPass=false; currentWeek='';
+    document.getElementById('inp-email').value='';
+    document.getElementById('inp-name').value='';
+    document.querySelectorAll('.week-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('btn-select-week').textContent='주차를 선택해주세요';
+    selectLang('ko');
+    showPage('page0',0);
 }
+
+function goHome(){ goWeekSelect(); }
 </script>
 </body>
 </html>
