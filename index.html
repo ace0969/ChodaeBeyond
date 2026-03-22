@@ -217,13 +217,13 @@ body { font-family:'Noto Sans KR',sans-serif; background:var(--bg); color:var(--
     <div class="card">
         <div class="card-label">주차 선택 / Select Week</div>
         <div class="week-grid">
-            <div class="week-card" id="wk-week1" onclick="selectWeek('week1')">
-                <div class="week-num">1</div>
+            <div class="week-card disabled" id="wk-week1">
+                <div class="week-num" style="background:var(--text-muted);">1</div>
                 <div class="week-info">
                     <div class="week-title">복음과 선교</div>
                     <div class="week-desc">김용의 선교사 · Gospel & Missions</div>
                 </div>
-                <span class="week-badge open">OPEN</span>
+                <span class="week-badge" style="background:var(--danger-bg);color:var(--danger);">CLOSED</span>
             </div>
             <div class="week-card" id="wk-week2" onclick="selectWeek('week2')">
                 <div class="week-num">2</div>
