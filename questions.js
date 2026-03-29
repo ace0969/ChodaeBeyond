@@ -64,6 +64,34 @@ const QUESTIONS_W2_EN = [
   { type: 'essay', text: 'What is the term used to describe the danger of treating Unreached People Groups as intrinsically different, alien objects, or mere targets? (HINT: 8 LETTERS)', keywords: ['othering', '타자화'], points: 10 }
 ];
 
+// ========== WEEK 3: 선교 팀워크 (한충희 선교사) ==========
+
+const QUESTIONS_W3_KO = [
+  { type: 'mc', text: '선교 팀워크의 핵심 단어 중 4차 로잔 대회에서 중요성이 강조된 개념은?', options: ['A) 함께 (Together)', 'B) 협업 (Collaboration)', 'C) 협력 (Cooperation)', 'D) 네트워킹 (Networking)'], answer: 0, points: 10 },
+  { type: 'mc', text: '다음 중 팀워크의 핵심 단어인 <u>협력(Cooperation)</u>을 가장 잘 설명한 것은?', options: ['A) 각자가 가진 재능으로 의료팀, 안경팀, VBS팀, 미용팀 등에 자원하여 하나의 단기 선교 팀을 구성한다.', 'B) NY, NJ 한인 교회 지도자들이 만나 재정과 자원을 함께 지원하며 단기선교 팀을 결성한다.', 'C) 교회가 이슬람 지역 선교 단체와 연결되어 선교사, 재정, 자원 등을 지원하며 활용하도록 돕는다.', 'D) 20명의 VBS 단기 선교팀을 파송하여 8개 조로 나누어 학령기 아이들에게 복음을 전한다.'], answer: 3, points: 10 },
+  { type: 'mc', text: '다음 중 다중중심선교(Polycentric Mission)에 관한 설명으로 <u>맞는</u> 것은?', options: ['A) 특정 지역이나 국가가 선교의 중심이 되어 전세계 복음화를 이루어야 한다는 선교 패러다임이다.', 'B) 서구 중심의 선교가 퇴보되고 선교 영향력이 약화되는 상황에서 등장했다.', 'C) Global South 시대에는 크리스텐덤(Christendom) 중심의 선교 구조를 강조한다.', 'D) 기존 서구 중심(Global North)의 선교가 Global South를 중심으로 우위가 바뀐 선교 구조를 말한다.'], answer: 1, points: 10 },
+  { type: 'mc', text: '다음 중 전략팀(Strategic Team, ST)에 관한 설명으로 <u>맞지 않는</u> 것은?', options: ['A) 4-5개 유닛(가정)이 하나의 ST를 구성하며, 동시에 함께 선교지로 파송받고 특정 지역을 담당한다.', 'B) 전략 코디네이터(SC)를 기준으로 협력자(co-worker)들이 큰 규모의 사역을 팀 단위로 담당한다.', 'C) 사역자는 자신의 부분만 감당하면 되며, 선교사 안식년이나 부재 시에도 사역이 계속 진행된다.', 'D) 개인의 달란트를 활용하여 독자적으로 사역하기에 제한점이 있다.'], answer: 0, points: 10 },
+  { type: 'mc', text: '다음 중 팀원들 간의 관계 문제를 해결하는 방법으로 강의에서 <u>언급되지 않은</u> 것은?', options: ['A) 깊은 기도와 회개', 'B) 예수님이 내 죄를 사하심을 기억하고 예배를 회복함', 'C) 선교 사역을 배분하고 접촉을 줄여 갈등 상황을 피함', 'D) 팀원 간의 성령 리트리트(Retreat)'], answer: 2, points: 10 },
+  { type: 'mc', text: '다음 중 팀워크를 해치는 상황에 관한 설명으로 <u>맞지 않는</u> 것은?', options: ['A) 큰 전략팀의 선임 선교사와 사역 안에서 어려움을 겪을 수 있으며, 적절한 사역 배분과 대화로 풀어가는 것이 필요하다.', 'B) 현지 교회와 관계 문제가 생길 때, 현지 교회와 동반자 선교의 중요성을 생각하고 상호 이해와 협력으로 풀어간다.', 'C) Unit별로 가정의 어려움이 있을 때는 예배와 기도를 통해 회복을 간구하고 필요 시 상담을 받는다.', 'D) 개인의 영성 문제는 소인수 사역에 영향을 미치지만, 큰 전략팀(ST) 안에서는 크게 영향을 미치지 않으며 시간이 지나면 회복된다.'], answer: 3, points: 10 },
+  { type: 'mc', text: '다음 중 선교 팀워크를 강화하는 방법으로 <u>적합하지 않은</u> 것은?', options: ['A) 상호 존중을 기반으로 지속적인 대화와 신뢰를 구축하기 위한 꾸준한 노력이 필요하다.', 'B) 전략팀 안에 관계가 어려운 유닛이 있을 때, 다른 유닛 선교사가 본부에 연락하여 간부나 담당 장로가 현지로 출장하게 한다.', 'C) 예배, 기도, 말씀과 성령의 조명을 통해 깨닫고, 하나님께 받은 소명을 재확인해야 한다.', 'D) 상대방이 내 호의를 당연히 받아들여도 서운해하지 않고, 남의 허물을 문제시하지 않는다.'], answer: 1, points: 10 },
+  { type: 'tf', text: '현지 사역자와 관계의 문제가 발생할 때, 현지 사역자를 조력자(Helper)로 여기는 대신 친밀도를 확인하고 강화하는 조치들을 모색해야 한다.', options: ['O (True)', 'X (False)'], answer: 0, points: 10 },
+  { type: 'tf', text: '교회(Modality)라는 신앙, 예배 공동체와 목표와 전략을 가진 선교 단체(Sodality)가 연결되어, 교회가 필요한 자원을 선교 현장으로 보내 활용하게 하는 것을 <u>네트워킹(Networking)</u>이라고 한다.', options: ['O (True)', 'X (False)'], answer: 1, points: 10 },
+  { type: 'essay', text: '팀워크의 핵심 단어 중, 개인이 가진 고유한 장점과 은사를 살려서 상호 보완적으로 활용하고, 공동의 목표를 달성하는 방식을 __________(이)라 한다. (한글 또는 영어)', keywords: ['협업', 'collaboration'], points: 10 }
+];
+
+const QUESTIONS_W3_EN = [
+  { type: 'mc', text: 'Among the key terms of mission teamwork, which concept was particularly emphasized at the 4th Lausanne Congress?', options: ['A) Together', 'B) Collaboration', 'C) Cooperation', 'D) Networking'], answer: 0, points: 10 },
+  { type: 'mc', text: 'Which of the following best explains <u>Cooperation</u> (협력) as a key term in teamwork?', options: ['A) Individuals with special talents sign up for medical, optometry, VBS, or hair styling teams to form a short-term mission team.', 'B) Leaders from Korean churches in NY and NJ meet to jointly provide resources and finances for a short-term mission team.', 'C) A church connects with a mission organization for a specific Islamic region, providing financial and resource-based support.', 'D) A church sends a 20-member VBS short-term mission team, dividing into 8 groups to share the Gospel with school-aged children.'], answer: 3, points: 10 },
+  { type: 'mc', text: 'Which of the following is the CORRECT description of Polycentric Mission?', options: ['A) A mission paradigm where one specific region or country must become the center to achieve global evangelization.', 'B) A concept that emerged as Western-centered missions were declining and their influence was weakening.', 'C) In the Global South era, this structure emphasizes a Christendom-centered mission approach.', 'D) A structure where the dominance has shifted from the Global North to the Global South (Asia, Africa, Latin America).'], answer: 1, points: 10 },
+  { type: 'mc', text: 'Which of the following is <u>NOT</u> a correct description of a Strategic Team (ST)?', options: ['A) 4 to 5 units (families) form one ST and are all sent simultaneously to take charge of a specific mission region.', 'B) Co-workers handle large-scale ministries as a team, based on the leadership of a Strategic Coordinator (SC).', 'C) Each worker handles only their specific portion; ministry continues even during a missionary\'s sabbatical or absence.', 'D) There are limitations to working independently using one\'s own talents within this structure.'], answer: 0, points: 10 },
+  { type: 'mc', text: 'Which of the following was <u>NOT</u> mentioned in the lecture as an appropriate way to resolve relationship issues among team members?', options: ['A) Deep prayer and repentance', 'B) Remembering Jesus\' forgiveness and restoring worship', 'C) Distributing mission tasks and reducing contact to avoid conflict situations', 'D) Holding a Holy Spirit Retreat among team members'], answer: 2, points: 10 },
+  { type: 'mc', text: 'Which of the following is <u>NOT</u> a correct explanation regarding situations that harm teamwork?', options: ['A) Difficulties with a senior missionary in an ST require dialogue to find appropriate task distribution and cooperation.', 'B) Conflicts with local churches should be resolved through mutual understanding and partnership mission principles.', 'C) Missionary families facing difficulties should seek restoration through prayer and counseling if needed.', 'D) Personal spiritual issues significantly affect small-scale missions, but do not greatly impact large Strategic Teams (ST), as horizontal relationships recover over time.'], answer: 3, points: 10 },
+  { type: 'mc', text: 'Which of the following is <u>NOT</u> an appropriate way to strengthen missionary teamwork?', options: ['A) Building trust through steady effort and continuous dialogue based on mutual respect.', 'B) When a unit has relational difficulties, another unit contacts headquarters to arrange an official or elder\'s visit to the field.', 'C) Reconfirming one\'s calling through worship, prayer, and the illumination of the Holy Spirit.', 'D) Not feeling slighted when others take your kindness for granted, and not making an issue of others\' shortcomings.'], answer: 1, points: 10 },
+  { type: 'tf', text: 'When relationship issues arise with local ministers, instead of regarding them merely as "helpers," one should seek measures to verify and strengthen the intimacy of the partnership.', options: ['True', 'False'], answer: 0, points: 10 },
+  { type: 'tf', text: 'Connecting the Church (Modality), a community of faith and worship, with a Mission Organization (Sodality) that has specific goals and strategies — so the church can send resources to the mission field — is called <u>Networking</u>.', options: ['True', 'False'], answer: 1, points: 10 },
+  { type: 'essay', text: 'Among the key terms of teamwork, the method of utilizing the unique strengths and gifts of individuals in a complementary way to achieve a common goal is called: __________ (Write your answer)', keywords: ['collaboration', '협업'], points: 10 }
+];
+
 // ========== 주차별 메타데이터 ==========
 
 const WEEK_DATA = {
@@ -74,5 +102,9 @@ const WEEK_DATA = {
   week2: {
     ko: { title: '남은 과업: 미전도 종족 선교', lecturer: '이태훈 교수', questions: QUESTIONS_W2_KO },
     en: { title: 'Remaining Task: Unreached People Groups', lecturer: 'Professor Peter Lee', questions: QUESTIONS_W2_EN }
+  },
+  week3: {
+    ko: { title: '선교 팀워크', lecturer: '한충희 선교사', questions: QUESTIONS_W3_KO },
+    en: { title: 'Missionary Teamwork', lecturer: 'Pastor Chun-hee Han', questions: QUESTIONS_W3_EN }
   }
 };
